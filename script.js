@@ -87,8 +87,27 @@ let noClickCount = 0;
 
 function moveNoButton() {
     const noBtn = document.getElementById('noBtn');
-    
-    // Calculate constraints to keep button within viewport
+
+    noClickCount++;
+
+    // On small screens, don't move the button — make the YES button grow instead
+    const isMobile = window.innerWidth <= 480;
+    if (isMobile) {
+        const yesBtn = document.querySelector('.yes-btn');
+        if (!yesBtn) return;
+        yesBtn.classList.add('grow');
+        // brief grow effect
+        setTimeout(() => yesBtn.classList.remove('grow'), 700);
+
+        // small shake feedback on NO button
+        if (noBtn) {
+            noBtn.classList.add('shake');
+            setTimeout(() => noBtn.classList.remove('shake'), 300);
+        }
+        return;
+    }
+
+    // Desktop/tablet behavior: move the NO button within safe viewport bounds
     const minX = 60;
     const maxX = Math.max(minX + 10, window.innerWidth - 60);
     const minY = 100;
@@ -98,14 +117,14 @@ function moveNoButton() {
     const randomX = Math.random() * (maxX - minX) + minX;
     const randomY = Math.random() * (maxY - minY) + minY;
 
-    noBtn.classList.add('move');
-    noBtn.style.left = randomX + 'px';
-    noBtn.style.top = randomY + 'px';
+    if (noBtn) {
+        noBtn.classList.add('move');
+        noBtn.style.left = randomX + 'px';
+        noBtn.style.top = randomY + 'px';
+    }
 
-    noClickCount++;
-    
     // Make it slightly harder to catch each time
-    if (noClickCount > 5) {
+    if (noClickCount > 5 && noBtn) {
         setTimeout(() => {
             const newRandomX = Math.random() * (maxX - minX) + minX;
             const newRandomY = Math.random() * (maxY - minY) + minY;
