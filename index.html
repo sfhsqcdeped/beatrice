@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HappyValentinesBEAAAA</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@600;700;800&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Decorative Elements -->
+    <div class="background-decoration">
+        <div class="bg-circle bg-circle-1"></div>
+        <div class="bg-circle bg-circle-2"></div>
+        <div class="bg-circle bg-circle-3"></div>
+        <div class="bg-circle bg-circle-4"></div>
+        <div class="bg-circle bg-circle-5"></div>
+        <div class="bg-pattern"></div>
+    </div>
+
+    <!-- School-Themed Romance Character with Bangs -->
+    <div class="romance-character">
+        <svg class="character-svg" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+            <!-- Head -->
+            <circle cx="50" cy="35" r="25" fill="#FDBCB4" stroke="#D4A5A0" stroke-width="1.5"/>
+            
+            <!-- Hair (long and flowing) -->
+            <path d="M 25 35 Q 20 20 50 15 Q 80 20 75 35 Q 75 50 70 55 L 30 55 Q 25 50 25 35" fill="#8B4513" stroke="#654321" stroke-width="1.5"/>
+            
+            <!-- Bangs -->
+            <path d="M 35 20 Q 40 15 50 14 Q 60 15 65 20 Q 60 22 50 22 Q 40 22 35 20" fill="#8B4513" stroke="#654321" stroke-width="1"/>
+            <ellipse cx="38" cy="19" rx="4" ry="5" fill="#8B4513"/>
+            <ellipse cx="50" cy="17" rx="4" ry="6" fill="#8B4513"/>
+            <ellipse cx="62" cy="19" rx="4" ry="5" fill="#8B4513"/>
+            
+            <!-- Eyes -->
+            <circle cx="42" cy="32" r="2.5" fill="#333"/>
+            <circle cx="58" cy="32" r="2.5" fill="#333"/>
+            <!-- Eye sparkle -->
+            <circle cx="43" cy="31" r="1" fill="white"/>
+            <circle cx="59" cy="31" r="1" fill="white"/>
+            
+            <!-- Blush -->
+            <circle cx="35" cy="38" r="3" fill="#FFB6C1" opacity="0.6"/>
+            <circle cx="65" cy="38" r="3" fill="#FFB6C1" opacity="0.6"/>
+            
+            <!-- Smile -->
+            <path d="M 42 42 Q 50 46 58 42" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            
+            <!-- School Uniform (red ribbon/collar) -->
+            <rect x="30" y="56" width="40" height="8" fill="#DC143C" rx="2"/>
+            
+            <!-- Body/Dress -->
+            <path d="M 30 64 L 28 100 Q 28 105 33 106 L 67 106 Q 72 105 72 100 L 70 64 Z" fill="#FFD700" stroke="#FFA500" stroke-width="1.5"/>
+            
+            <!-- Arms -->
+            <line x1="32" y1="68" x2="20" y2="75" stroke="#FDBCB4" stroke-width="3" stroke-linecap="round"/>
+            <line x1="68" y1="68" x2="80" y2="75" stroke="#FDBCB4" stroke-width="3" stroke-linecap="round"/>
+            
+            <!-- Heart on chest -->
+            <path d="M 50 70 Q 46 65 42 67 Q 38 69 42 75 Q 46 78 50 75 Q 54 78 58 75 Q 62 69 58 67 Q 54 65 50 70" fill="#FF1493" opacity="0.8"/>
+        </svg>
+    </div>
+
+    <!-- PAGE 1: COVER PAGE -->
+    <section id="page1" class="page active">
+        <div class="page-content cover-page">
+            <div class="floating-heart-bg"></div>
+            <img src="https://i.pinimg.com/originals/00/1d/2f/001d2f18b6d27dbd36191d66064bef6f.gif" alt="Valentine GIF" class="cover-gif">
+            <h1 class="main-title">Happy Valentines 💜</h1>
+            <button class="btn btn-glow" onclick="goToPage(2)">Start</button>
+        </div>
+    </section>
+
+    <!-- PAGE 2: QUESTION PAGE -->
+    <section id="page2" class="page">
+        <button class="back-button" onclick="goToPage(1)">← Back</button>
+        <div class="page-content question-page">
+            <div class="floating-heart-bg"></div>
+            <img src="https://media1.tenor.com/m/uSUkySupnnUAAAAC/tkthao219-bubududu.gif" alt="Question GIF" class="question-gif">
+            <h2 class="section-title">Do you want to open my Valentine's card?</h2>
+            <div class="button-group question-buttons">
+                <button class="btn btn-glow yes-btn" onclick="goToPage(3)">💜 YES</button>
+                <button class="btn btn-glow no-btn" id="noBtn" onmouseenter="moveNoButton()">❌ NO</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE 3: ENVELOPE PASSWORD PAGE -->
+    <section id="page3" class="page">
+        <button class="back-button" onclick="goToPage(2)">← Back</button>
+        <div class="page-content envelope-page">
+            <div class="floating-heart-bg"></div>
+            <h2 class="section-title">Enter the secret password to open the letter 💌</h2>
+            
+            <div class="envelope-container" id="envelopeContainer">
+                <div class="envelope" id="envelope">
+                    <div class="envelope-decoration envelope-top-left">✨</div>
+                    <div class="envelope-decoration envelope-top-right">✨</div>
+                    
+                    <div class="envelope-back"></div>
+                    <div class="envelope-flap">
+                        <div class="envelope-wax-seal">💌</div>
+                        <div class="envelope-flap-front"></div>
+                    </div>
+                    <div class="envelope-body">
+                        <div class="envelope-shine"></div>
+                        <div class="envelope-lines">
+                            <div class="line"></div>
+                            <div class="line"></div>
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="envelope-decoration envelope-bottom-left">💜</div>
+                    <div class="envelope-decoration envelope-bottom-right">💜</div>
+                </div>
+                <p class="envelope-hint">Click the envelope ✨</p>
+            </div>
+
+            <div class="password-section" id="passwordSection" style="display: none;">
+                <input type="password" id="passwordInput" placeholder="Enter password..." class="password-input">
+                <button class="btn btn-glow" onclick="checkPassword()">Unlock 💜</button>
+                <p class="password-hint" id="passwordHint"></p>
+            </div>
+
+            <!-- Letter Animation Coming Out of Envelope -->
+            <div class="letter-coming-out" id="letterComingOut" style="display: none;">
+                <div class="sliding-letter" id="slidingLetter" onclick="zoomInLetterPage3()">
+                    <div class="letter-coming-out-content">
+                        <p style="font-size: 0.9rem; color: #666; text-align: center; margin-bottom: 10px;">📄 Click anywhere to read the letter 📄</p>
+                        <div style="text-align: center; font-size: 2rem;">💌</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LETTER ANIMATION OVERLAY -->
+    <div id="letterOverlay" class="letter-overlay">
+        <div class="letter-overlay-content">
+            <div class="letter-overlay-close" onclick="closeLetterAnimation()">✕</div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: LOVE LETTER PAGE -->
+    <section id="page4" class="page">
+        <button class="back-button" onclick="goToPage(3)">← Back</button>
+        <div class="page-content letter-page">
+            <div class="envelope-click-hint" id="envelopeClickHint" style="display: none;">✨ Click the envelope to reveal the letter ✨</div>
+            
+            <div class="vintage-paper">
+                <div class="paper-texture"></div>
+                
+                <div class="letter-header">
+                    <h2 class="letter-title">A Letter From My Heart</h2>
+                    <p class="letter-date" id="letterDate"></p>
+                </div>
+
+                <div class="letter-content" id="letterContent">
+Hi bea?? <span class="pause" data-duration="1000"></span> <br>
+Hi? Uhmmm, paano ko ba sisimulan toooo.. (,,&gt;﹏&lt;,,) <span class="pause" data-duration="2000"></span> <br><br>
+Hayyst…… <span class="pause" data-duration="1000"></span> bahala na.... HAHAHAH<br><br>
+
+Sa totoo lang, medyo matagal ko nang pinag-iisipan kung isusulat ko pa ba to o itatago na lang sayo nararamdaman ko. Pero sinasabi ng mga tropa kong bumubulong sa akin na mas okay nang sabihin kaysa itago pa… <br><br>
+
+Anywayss.... <span class="pause" data-duration="2000"></span> <br><br>
+
+Hindi ko alam kung kailan nagsimula to ulit eh…. <span class="pause" data-duration="1000"></span> <br>
+
+Way back Grade 9, alam mo nang crush kita diba?...<span class="pause" data-duration="1000"></span> HAHAHA lala ni jake eh. Nagtataka ako bakit kinakausap mo pa rin ako? Legit gagi kala ko di mo na ako papansinin kasi nalaman mo na may gusto ako sayo.... <br><br>
+
+Hayyst kung di mo lang alam na gusto kita nun... Lagi parin kita nakakausap siguro hanggang ngayon... Pero isa to sa mga nagustuhan ko sayo lalo.... <br><br>
+
+And grade 10 nahiwalay tayo section hindi na kita nakikita and nakakausap… and may prom noon tas sumali ka nun pero hindi ako nakasali kasi halos lahat ng kaklase ko hindi rin naman sumali..., kaya hindi nalang ako sumali... inipon ko na lang yung pambayad. Sayang ૮(˶ㅠ︿ㅠ)ა…. And Last nating kita noong grade 10 pa, last day na tas moving up... Nandun pa ata kayo nun sa foodcourt nakatambay... Sayang last day na nun di pa kita kinausap... <br><br>
+
+Sorry agad, HAHAHA.... <span class="pause" data-duration="1000"></span> Plano ko talagang umamin noon pero wala akong confidence sa sarili ko….<br><br>
+
+Forward na natin yung kuwento... Kung saan nagsimula ulit yung lahat… <span class="pause" data-duration="1000"></span> <br><br>
+
+First quarter ng Grade 11, August hanggang October, hindi kita nakikita sa school noon kaya akala ko lumipat ka na sa ibang school dahil maraming nag-offer na school sa atin nun…. Akala ko pa noon hindi na kita makikita, at parang nagsisisi ako na hindi ako sumali sa prom kahit alam kong kasali ka naman….<br><br>
+
+Di na makikita?... <br>
+akala ko?…. <br>
+akala lang…… <br>
+WAHHHH GRABE?!?!!….<br><br>
+
+Pero unexpected… second week na ng second quarter… lagi na kitang nakikita sa labas ng room namin, dumadaan sa hallway tuwing last period na kami. Nang una kitang makita, nagulat ako, lalo kang gumanda behh…. Habang ako, mukhang tatay pa rin. HAHAHA….. Hayyst…<br><br>
+
+Bandang second quarter pa rin, third week ata yun? I guess… bigla kang lumapit sa akin, humarang para sa PETA ata sa KomPan yun eh. Kakatapos ko lang din kasi gawin yung PETA na yun that day, at dapat tatanggi ako sayo sa film na yun kasi inaaya rin ako ni Kyle na tulungan siya doon. Kaso tumanggi ako, kaya hindi rin dapat ako tutulong sa PETA mo, pero etong mga kupal kong kaklase, napilitan akong mag-vid…. HAHAHA....<br><br>
+
+HAHA pero gusto ko rin naman... legit, kilig ko dun ah ket alam kong para sa PETA lang... First time ko ulit marinig boses mo nun... after nung hindi na kita nakikita nung Grade 10...<br><br>
+
+Torpe talaga ako… Torpe si aaron…. TORPE AKOOO…. WAHHHHH <span class="pause" data-duration="1000"></span> <br><br>
+
+Second sem ng Grade 11… nag-start na akong ayusin ang sarili ko at tinatry ko magpapogi kahit papaano… Aray ko, naging motivation ka pa. HAHAHAH….. Araw-araw na akong gumagala muna sa building kahit uwian na namin, madaanan lang room niyo… Second sem din ata napunta sa inyo si Sir Padilla, tapos nagcha-chat ka sa akin kung nagcha-chat ka sa akin kung nakakatakot yun… Haha, akala ko pa naman nag-chat ka noon kasi lagi akong gumagala sa building natin… Lala ko…<br><br>
+
+Second sem, last quarter… nag-chat ka, papaprint ka sana noon, kaso kakauwi ko lang kaya hindi na kita naprintan….. Sayang, makikita na naman sana kita kung nag-chat ka lang bago ako umuwi, maprintan sana kita…. Anyways, wala na masyadong ganap noon… Dami kong sinayang na opportunity… Hayyst, Aaron…<br><br>
+
+Anyways… napagtanto ko nung grade 11 na kahit anong gawin ko… hindi ka mawala sa isip ko pag nakikita kita, and kahit anong gawin ko di talaga maalis sa utak buong araw…. Hindi na ata crush to eh… IN LOVE NA ATA AKO NUN…. (╥﹏╥)<br><br>
+
+Lalaa… LaLaa…… LALAAAA MO, AARONNN!!! <span class="pause" data-duration="1000"></span> <br><br>
+
+Maganda ka, matalino, pero… <span class="pause" data-duration="1000"></span> hindi lang doon nagtatapos yun eh….<br><br>
+
+May something sayo. Sa way ng awra mo, sa pagkilos mo, at kung paano ka maging ikaw. Ang hirap mong mawala sa isip. Tinry ko na lahat, pero tuwing makikita kita, nahihiya na akong humarap sayo. At kapag kinakausap mo naman ako, hindi ko na alam ang sasabihin ko... kaya hindi na kita nakakausap. Tapos after nun bigla akong nagsisisi dahil hindi kita nakausap…<br><br>
+
+Gusto kita sa mga simpleng bagay. Sa mga imperfections mo., sa mga jolly moments mo.., at sa vibe mo na parang ang sarap kasama... <br><br>
+
+Ang smile mo, ang style mo, at yung presence mo… Sapat na para makumpleto yung araw ko makita lang... <br><br>
+
+Sobrang magkasalungat talaga ang mundo natin pagdating sa vibes… HAHAHA well sabi nga sa physics, "opposites attract." Jk lang, ang corny ah… ay naalala ko lang yung parang math problem na binigay ko sayo noon. Pangit pala ng ginawa ko... ang cringe ko ampota… Sumakit lang ulo mo sa ka-cornyhan ko HAHAH… <br><br>
+
+Sorry… <br>
+Well Hanggang ngayon ang cringe ko parin naman sa ginagawa ko... <br><br>
+
+Back to the story... <span class="pause" data-duration="1000"></span> <br><br>
+
+Grade 12… after ng bakasyon, pumayat ako unti-unti, tapos nahanap ko na yung gupit na bagay sa akin. Hmmmm….. At ayun na nga, naging kaklase ko pa si Tabula… bestfriend mo. Hindi ko alam kung swerte ako o hindi eh… tinotorpe kasi ako pag nakikita ka…. Hayyst… second day pa lang ng school ah, bigla kang tumingin sa salamin, hinahanap mo si Tabula… May pagkaswerte rin ako 'no, halos magkalapit lang kami ng upuan ni Tabula… (˶˃𐃷˂˶)<br><br>
+
+HAHAHAHAH… loob-loob ko noon, lagi na kitang makikita?….. <span class="pause" data-duration="1000"></span> Siguro….. HAHAHAHA (˶˃ ᵕ ˂˶)<br><br>
+
+Naalala mo pa birthday ko? WAHHH... Kinikilig ako nung araw na yun… Pero lumayo muna ako, ayokong ipakita na may gusto pa rin ako sayo HAHAHA…. Ikaw talaga ang pinaka-reason kung bakit ko inaayos ang sarili ko eh… HAHAHA. Naalala ko pa noon, work immersion.., nag iipon ako pambrace... Pinilit ko pang dagdagan ni Mama yung ipon ko HAHAH… Mangitian lang kita tuwing nakikita kita… pero hindi magawa eh -tinotorpeeee. <br><br>
+
+LALAAA.... ( ˶•̀ _•́ ˶)<br><br>
+
+Last week ng third quarter… grabe, hindi ko in-expect na makakasalubong kita tapos sasabihan mo akong… "hoy aaron SNABBER ka na ngayon ah"… Wahh tas inisnab parin kita kakasabi mo lang, sorry... <br><br>
+
+Wala talaga torpe talaga ako sayo…<br><br>
+
+Tinatapangan ko lang ngayon since malapit na tayong grumaduate… last chance na para ibuhos tong nararamdaman ko...... Para di rin ako magsisi... <br><br>
+
+Eto na, prom night… ang aga kong dumating at pinapila kami para sa start ng prom… tapos nakita kita, kakadating lang para pumila, nasa likod lang ng section namin yung section mo…. HAHAHA, kasali ka pala... Yabang ko pa nun sabi ko sa mga tropa ko isasayaw kita... Pero tiklop agad ako eh, napapalayo pag nakikita ka...<br><br>
+
+Nagpatulong pa ako sa mga tropa ko para makapagpa-picture lang sayo (˶˃ ᵕ ˂˶)…  HAHAHAH, kunwari ayaw pa eh noh, pero gusto naman.... W Mark tas Carl. <br><br>
+
+Gusto ko pa sana ikaw isayaw nun eh… kaso baka may boyfriend ka na kaya picture na lang... Pero Thank you, naging sulit prom ko, Bea!<br><br>
+
+1… <span class="pause" data-duration="500"></span>2…<span class="pause" data-duration="500"></span> 3…<span class="pause" data-duration="500"></span> Almost wasted 4 years.... Yes ganun katagal kitang crush… HAHAHAHA… <br><br>
+
+૮₍ ˶ᵔ ᵕ ᵔ˶ ₎ა<br><br>
+
+THANK YOU FOR ALL THESE YEARS FOR BEING MY MOTIVATION, MY GREATEST CRUSH, AND MY FIRST LOVE….<br><br>
+
+Anyways… I made this code just to show you how deeply I'm in love with you...Every line of it reflects how I feel. ( ๑ ˃̵ᴗ˂̵)و ♡<br><br>
+
+But wag ka ma-pressure, okay? (๑&gt;؂•̀๑)<br>
+You don't have to feel the same way.<br>
+I just needed to get this off my chest for my own peace of mind... <br><br>
+
+Paalam…<span class="pause" data-duration="500"></span> Goodbye…<span class="pause" data-duration="500"></span> Adiós…<span class="pause" data-duration="500"></span> Au revoir…<span class="pause" data-duration="500"></span> Arrivederci…<span class="pause" data-duration="500"></span> Sayonara…<span class="pause" data-duration="500"></span><br><br>
+
+Oops… hindi pa pala to goodbye… Maybe..? see you around, Thank you! Bea. <br><br>
+
+(⸝⸝&gt; ᴗ•⸝⸝)
+                </div>
+
+                <div class="letter-signature">
+                    With all my love,<br>
+                    ❤️
+                </div>
+            </div>
+
+            <div class="letter-nav">
+                <button class="btn btn-glow" onclick="goToPage(5)">Next 💜</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE 5: SONG PAGE -->
+    <section id="page5" class="page">
+        <button class="back-button" onclick="goToPage(4)">← Back</button>
+        <div class="page-content song-page">
+            
+            <div class="flower-decoration flower-left">🌹</div>
+            <div class="flower-decoration flower-right">🌷</div>
+            
+            <h2 class="section-title">A song just for you 💜</h2>
+            
+            <div class="now-playing" id="nowPlaying" style="display: none;">
+                <p class="now-playing-text">Now Playing: <span id="nowPlayingTitle">Torpe</span> 🎵</p>
+            </div>
+            
+            <div class="songs-wrapper">
+                <div class="songs-list">
+                    <button class="song-item active" onclick="selectSong(0, 'Torpe')">🎵 Torpe</button>
+                    <button class="song-item" onclick="selectSong(1, 'RomCom')">🎵 RomCom</button>
+                    <button class="song-item" onclick="selectSong(2, 'Fallen')">🎵 Fallen</button>
+                    <button class="song-item" onclick="selectSong(3, 'Cant Take My Eyes off You')">🎵 Can't Take My Eyes off You</button>
+                    <button class="song-item" onclick="selectSong(4, 'Paninindigan Kita')">🎵 Paninindigan Kita</button>
+                    <button class="song-item" onclick="selectSong(5, 'Made In Japan')">🎵 Made In Japan</button>
+                    <button class="song-item" onclick="selectSong(6, 'Pasilyo')">🎵 Pasilyo</button>
+                </div>
+
+                <div class="music-player-container">
+                    <div class="album-cover-wrapper">
+                        <div class="album-cover" id="albumCover">
+                            <img src="assets/images/album-cover.jpg" alt="Album Cover" class="cover-image">
+                            <div class="album-shine"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="player-info">
+                        <h3 class="song-title" id="currentSongTitle">Torpe</h3>
+                        <p class="song-artist">Just For You 💜</p>
+                    </div>
+
+                    <audio id="musicPlayer" class="hidden-player">
+                        <source src="assets/music/torpe.mp3" type="audio/mpeg">
+                    </audio>
+                    
+                    <div class="player-controls">
+                        <button class="control-btn play-btn" onclick="togglePlayPause()" id="playPauseBtn">
+                            <span class="play-icon">▶</span>
+                            <span class="pause-icon" style="display: none;">⏸</span>
+                        </button>
+                    </div>
+                    
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progressBar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <div class="time-display">
+                            <span class="current-time" id="currentTime">0:00</span>
+                            <span class="duration" id="duration">0:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="song-card" id="currentSongCard">
+                <h3 class="card-title" id="selectedSongTitle">Torpe</h3>
+                <p class="card-reason" id="selectedSongReason">Nilagay ko to kasi sobrang akong ako yung kanta HAHA. Ilang beses akong nagkaroon ng chance makipag-usap pero laging nauunahan ng hiya. Gusto ko magsalita, gusto ko sabihin lahat, pero natatalo ako ng pagiging torpe ko. Parang theme song siya ng buong high school life ko pagdating sayo.</p>
+            </div>
+
+            <div class="button-nav">
+                <button class="btn btn-glow" onclick="goToPage(6)">Next 💜</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE 6: PROM PICTURES PAGE -->
+    <section id="page6" class="page">
+        <button class="back-button" onclick="goToPage(5)">← Back</button>
+        <div class="page-content gallery-page">
+            
+            <h2 class="section-title">First time picture with you 💜</h2>
+            
+            <div class="photo-gallery">
+                <div class="photo-slot"><img src="assets/images/prom1.jpg" alt="Prom picture 1" class="photo-placeholder"></div>
+                <div class="photo-slot"><img src="assets/images/prom2.jpg" alt="Prom picture 2" class="photo-placeholder"></div>
+                <div class="photo-slot"><img src="assets/images/prom3.jpg" alt="Prom picture 3" class="photo-placeholder"></div>
+                <div class="photo-slot"><img src="assets/images/prom4.jpg" alt="Prom picture 4" class="photo-placeholder"></div>
+                <div class="photo-slot"><img src="assets/images/prom5.jpg" alt="Prom picture 5" class="photo-placeholder"></div>
+                <div class="photo-slot"><img src="assets/images/prom6.jpg" alt="Prom picture 6" class="photo-placeholder"></div>
+                <div class="photo-slot"><img src="assets/images/prom7.jpg" alt="Prom picture 7" class="photo-placeholder"></div>
+                <div class="photo-slot"><img src="assets/images/prom8.jpg" alt="Prom picture 8" class="photo-placeholder"></div>
+                <div class="photo-slot"><img src="assets/images/prom9.jpg" alt="Prom picture 9" class="photo-placeholder"></div>
+                <div class="photo-slot"><img src="assets/images/prom10.jpg" alt="Prom picture 10" class="photo-placeholder"></div>
+                <div class="photo-slot"><img src="assets/images/prom11.jpg" alt="Prom picture 11" class="photo-placeholder"></div>
+                <div class="photo-slot"><img src="assets/images/prom12.jpg" alt="Prom picture 12" class="photo-placeholder"></div>
+            </div>
+
+            <div class="button-nav">
+                <button class="btn btn-glow" onclick="goToPage(7)">Next 💜</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE 7: THANK YOU PAGE -->
+    <section id="page7" class="page">
+        <div class="page-content thank-you-page">
+            <div class="floating-heart-animation"></div>
+            
+            <img src="https://media.tenor.com/Sm92zd7FyWwAAAAM/thank-you.gif" alt="Thank you GIF" class="thank-you-gif">
+            
+            <h1 class="thank-you-title">Thank you for being part of my life 💜</h1>
+            <p class="thank-you-subtitle">Happy Valentine's Day</p>
+            
+            <div class="button-nav" style="margin-top: 40px;">
+                <button class="btn btn-glow" onclick="goToPage(1)">Start Over 💜</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Music Toggle Button -->
+    <div class="music-toggle">
+        <button id="musicBtn" class="music-btn" onclick="toggleMusic()">🎵</button>
+    </div>
+
+    <!-- Background Music (will be added via JavaScript if available) -->
+    <audio id="bgMusic" loop style="display: none;" controls autoplay >
+        <source src="assets/music/romantic-music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
