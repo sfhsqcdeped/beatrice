@@ -11,6 +11,8 @@ body {
     overflow-x: hidden;
     color: #331832;
     position: relative;
+    max-width: 100vw;
+    width: 100%;
 }
 
 /* ========== BACKGROUND DECORATIVE DESIGN ========== */
@@ -556,6 +558,11 @@ body {
 .no-btn.move {
     position: fixed;
     transition: all 0.3s ease;
+    max-width: calc(100vw - 40px) !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transform: translate(-50%, -50%);
 }
 
 /* ========== PAGE 3: ENVELOPE PASSWORD PAGE ========== */
