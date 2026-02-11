@@ -394,6 +394,19 @@ body {
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
+/* YES button grow effect for small screens */
+.yes-btn.grow {
+    transform: scale(1.15);
+    box-shadow: 0 12px 40px rgba(168, 85, 247, 0.8);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    z-index: 60;
+}
+
+/* Reuse shake keyframes for NO button feedback */
+.no-btn.shake {
+    animation: shake 0.35s;
+}
+
 .btn-glow:hover {
     box-shadow: 0 0 30px rgba(168, 85, 247, 0.9);
     transform: scale(1.05);
@@ -1996,5 +2009,40 @@ body {
     .letter-content {
         font-size: 0.95rem;
         line-height: 1.7;
+    }
+}
+
+/* Mobile: ensure envelope and password stack without overlap */
+@media (max-width: 480px) {
+    .envelope-page {
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 30px;
+    }
+
+    .envelope-container {
+        margin-bottom: 12px;
+        z-index: 6;
+    }
+
+    .password-section {
+        position: static !important;
+        margin-top: 12px;
+        z-index: 4;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .password-input {
+        width: calc(100% - 40px);
+        max-width: 360px;
+        box-sizing: border-box;
+    }
+
+    .envelope-hint {
+        margin-bottom: 6px;
     }
 }
