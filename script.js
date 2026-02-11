@@ -88,9 +88,15 @@ let noClickCount = 0;
 function moveNoButton() {
     const noBtn = document.getElementById('noBtn');
     
-    // Calculate random position
-    const randomX = Math.random() * (window.innerWidth - 100);
-    const randomY = Math.random() * (window.innerHeight - 100);
+    // Calculate constraints to keep button within viewport
+    const minX = 60;
+    const maxX = Math.max(minX + 10, window.innerWidth - 60);
+    const minY = 100;
+    const maxY = Math.max(minY + 10, window.innerHeight - 100);
+
+    // Calculate random position within safe bounds
+    const randomX = Math.random() * (maxX - minX) + minX;
+    const randomY = Math.random() * (maxY - minY) + minY;
 
     noBtn.classList.add('move');
     noBtn.style.left = randomX + 'px';
@@ -101,8 +107,10 @@ function moveNoButton() {
     // Make it slightly harder to catch each time
     if (noClickCount > 5) {
         setTimeout(() => {
-            noBtn.style.left = (Math.random() * (window.innerWidth - 100)) + 'px';
-            noBtn.style.top = (Math.random() * (window.innerHeight - 100)) + 'px';
+            const newRandomX = Math.random() * (maxX - minX) + minX;
+            const newRandomY = Math.random() * (maxY - minY) + minY;
+            noBtn.style.left = newRandomX + 'px';
+            noBtn.style.top = newRandomY + 'px';
         }, 100);
     }
 }
