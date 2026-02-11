@@ -322,9 +322,8 @@ function playTypewriterEffect() {
 window.addEventListener('DOMContentLoaded', () => {
     const letterDate = document.getElementById('letterDate');
     if (letterDate) {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        const today = new Date().toLocaleDateString('en-US', options);
-        letterDate.textContent = today;
+        // Use fixed date for the letter per request
+        letterDate.textContent = 'February 11, 2026';
     }
 });
 
@@ -717,4 +716,3 @@ function closeLetterAnimation() {
 }
 
 window.addEventListener('DOMContentLoaded', optimizeAnimations);
-
