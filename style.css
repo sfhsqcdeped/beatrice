@@ -395,10 +395,14 @@ body {
 }
 
 /* YES button grow effect for small screens */
+.yes-btn {
+    transform-origin: center;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+}
+
 .yes-btn.grow {
     transform: scale(1.15);
     box-shadow: 0 12px 40px rgba(168, 85, 247, 0.8);
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
     z-index: 60;
 }
 
@@ -590,6 +594,59 @@ body {
     perspective: 1000px;
     cursor: pointer;
     animation: fadeIn 0.8s ease-in;
+}
+
+/* Mobile: stack envelope and password, keep password visible */
+@media (max-width: 600px) {
+    .envelope-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    .envelope {
+        width: 220px;
+        height: 150px;
+        transform-origin: center;
+        z-index: 3;
+    }
+
+    .envelope-flap {
+        height: 80px;
+    }
+
+    .password-section {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-top: 6px;
+        z-index: 4;
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .password-input {
+        width: 100%;
+        max-width: 360px;
+    }
+
+    /* Ensure letter coming out container doesn't overlap password when present */
+    .letter-coming-out {
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: none;
+        margin-top: 8px;
+        z-index: 4;
+    }
+
+    .sliding-letter {
+        width: 220px;
+        height: 150px;
+    }
 }
 
 .envelope {
