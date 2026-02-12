@@ -612,8 +612,14 @@ body {
 
 .envelope-page {
     z-index: 2;
-    gap: 30px;
+    gap: 36px;
     padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
 .envelope-container {
@@ -623,10 +629,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 24px;
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
+    justify-content: center;
+    margin-bottom: 18px;
 }
 
 /* Mobile: stack envelope and password, keep password visible */
@@ -1144,6 +1152,12 @@ body {
 
 .password-section {
     animation: slideInUp 0.6s ease-out;
+    margin-top: 24px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
 }
 
 @keyframes slideInUp {
@@ -1204,8 +1218,8 @@ body {
     top: 0;
     left: 0;
     transform: none;
-    margin-top: 15px;
-    z-index: 4;
+    margin-top: 18px;
+    z-index: 20;
     width: 100%;
     max-width: 280px;
     display: flex;
@@ -1232,6 +1246,7 @@ body {
     touch-action: manipulation;
     -webkit-user-select: none;
     user-select: none;
+    z-index: 21;
 }
 
 .sliding-letter:hover {
@@ -1380,6 +1395,56 @@ body {
 }
 
 /* ========== PAGE 5: SONG PAGE ========== */
+/* ========== AESTHETIC PLAYLIST STYLES ========== */
+.aesthetic-playlist {
+    width: 100%;
+    max-height: 320px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(168,85,247,0.08);
+    padding: 18px 8px;
+    border: 1px solid rgba(168,85,247,0.15);
+}
+
+.playlist-song {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient(135deg, rgba(168,85,247,0.08) 0%, rgba(217,70,239,0.08) 100%);
+    border-radius: 12px;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: box-shadow 0.3s, background 0.3s;
+    box-shadow: 0 2px 8px rgba(168,85,247,0.07);
+    border: 2px solid transparent;
+}
+
+.playlist-song:hover, .playlist-song.active {
+    background: linear-gradient(135deg, rgba(168,85,247,0.18) 0%, rgba(217,70,239,0.18) 100%);
+    box-shadow: 0 6px 18px rgba(168,85,247,0.13);
+    border-color: rgba(168,85,247,0.35);
+}
+
+.playlist-cover {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(168,85,247,0.12);
+}
+
+.playlist-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: #fff;
+    font-weight: 600;
+    text-shadow: 0 2px 8px rgba(168,85,247,0.13);
+    letter-spacing: 0.5px;
+}
 
 .song-page {
     z-index: 2;
@@ -1681,6 +1746,38 @@ body {
 }
 
 /* ========== PAGE 6: PHOTO GALLERY PAGE ========== */
+.polaroid {
+    background: #fff;
+    border: 4px solid #e0e0e0;
+    box-shadow: 0 8px 32px rgba(168,85,247,0.13), 0 2px 8px rgba(0,0,0,0.08);
+    border-radius: 18px;
+    padding: 12px 12px 32px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+.polaroid-caption {
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-family: 'Lora', serif;
+    font-size: 1.05rem;
+    color: #a855f7;
+    background: rgba(255,255,255,0.85);
+    border-radius: 8px;
+    padding: 4px 0;
+    box-shadow: 0 2px 8px rgba(168,85,247,0.08);
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+.polaroid:hover {
+    box-shadow: 0 16px 40px rgba(168,85,247,0.22), 0 4px 16px rgba(0,0,0,0.13);
+    transform: scale(1.04) rotate(-2deg);
+}
 
 .gallery-page {
     z-index: 2;
@@ -1994,169 +2091,6 @@ body {
         font-size: 0.95rem;
     }
 
-    .photo-gallery {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-    }
-
-    .playlist-intro {
-        max-width: 90%;
-        padding: 20px;
-    }
-
-    .playlist-intro p {
-        font-size: 1rem;
-    }
-
-    .playlist-container {
-        max-width: 90%;
-    }
-
-    .song-card {
-        padding: 20px;
-    }
-
-    .card-title {
-        font-size: 1.5rem;
-    }
-
-    .card-reason {
-        font-size: 0.95rem;
-    }
-
-    .music-toggle {
-        bottom: 20px;
-        right: 20px;
-    }
-
-    .music-btn {
-        width: 50px;
-        height: 50px;
-        font-size: 1.2rem;
-    }
-
-    .thank-you-title {
-        font-size: 2rem;
-    }
-
-    .thank-you-subtitle {
-        font-size: 1.2rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .main-title {
-        font-size: 2rem;
-    }
-
-    .section-title {
-        font-size: 1.3rem;
-    }
-
-    .character-svg {
-        width: 85px;
-        height: 110px;
-    }
-
-    .flower-decoration {
-        font-size: 2.5rem;
-    }
-
-    .now-playing {
-        padding: 8px 16px;
-    }
-
-    .now-playing-text {
-        font-size: 0.8rem;
-    }
-
-    #nowPlayingTitle {
-        font-size: 0.9rem;
-    }
-
-    .music-player-container {
-        padding: 25px 15px;
-        gap: 15px;
-    }
-
-    .songs-list {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-    }
-
-    .song-item {
-        padding: 8px 10px;
-        font-size: 0.75rem;
-    }
-
-    .album-cover {
-        width: 160px;
-        height: 160px;
-    }
-
-    .song-title {
-        font-size: 1.3rem;
-    }
-
-    .control-btn {
-        width: 55px;
-        height: 55px;
-        font-size: 1.2rem;
-    }
-
-    .btn {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
-
-    .cover-gif,
-    .question-gif,
-    .thank-you-gif {
-        max-width: 90%;
-        border-radius: 12px;
-    }
-
-    .playlist-intro {
-        max-width: 95%;
-        padding: 15px;
-    }
-
-    .playlist-intro p {
-        font-size: 0.9rem;
-        line-height: 1.6;
-    }
-
-    .playlist-container {
-        max-width: 95%;
-    }
-
-    .song-card {
-        padding: 15px;
-    }
-
-    .card-title {
-        font-size: 1.3rem;
-        margin-bottom: 10px;
-    }
-
-    .card-reason {
-        font-size: 0.85rem;
-        line-height: 1.5;
-    }
-
-    .envelope {
-        width: 180px;
-        height: 120px;
-    }
-
-    .photo-gallery {
-        grid-template-columns: repeat(1, 1fr);
-    }
-}
-    .thank-you-gif {
-        max-width: 300px;
-    }
-
     .button-group {
         gap: 15px;
     }
@@ -2206,7 +2140,7 @@ body {
         bottom: 20px;
         right: 20px;
     }
-
+}
 
 @media (max-width: 480px) {
     .page {
@@ -2262,7 +2196,7 @@ body {
     }
 
     .thank-you-subtitle {
-        font-size: 1rem;
+        font-size: 1.2rem;
     }
 
     .song-reason {
@@ -2418,30 +2352,55 @@ body {
         z-index: 6;
         width: 100%;
         order: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .password-section {
         position: relative !important;
-        margin-top: 15px;
-        z-index: 5;
+        margin-top: 18px;
+        z-index: 10;
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 10px;
+        gap: 14px;
         padding: 0 12px;
         box-sizing: border-box;
         order: 2;
+        background: none;
     }
 
     .password-input {
         width: 100%;
         max-width: 280px;
         box-sizing: border-box;
+        font-size: 1rem;
+        background: rgba(255,255,255,0.25);
+        color: #331832;
+        border: 2px solid #a855f7;
+        margin-bottom: 0;
+        z-index: 11;
+    }
+
+    .btn-glow {
+        z-index: 11;
     }
 
     .letter-coming-out {
         order: 3;
+        margin-top: 18px;
+        z-index: 12;
+        width: 100%;
+        max-width: 280px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .sliding-letter {
+        z-index: 13;
     }
 
     .envelope-hint {
