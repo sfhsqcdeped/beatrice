@@ -134,6 +134,35 @@ function moveNoButton() {
     }
 }
 
+// ========== NO BUTTON CLICK HANDLER ==========
+
+function handleNoButtonClick(e) {
+    // Prevent the no button from moving when clicked
+    e.stopPropagation();
+    
+    // Change the GIF to sad bears GIF
+    const questionGif = document.querySelector('.question-gif');
+    if (questionGif) {
+        questionGif.style.transition = 'opacity 0.3s ease-in-out';
+        questionGif.style.opacity = '0';
+        
+        setTimeout(() => {
+            questionGif.src = 'https://media.tenor.com/22hwAGkxTDEAAAAM/we-bare-bears-sad.gif';
+            questionGif.alt = 'Sad reaction GIF';
+            questionGif.style.opacity = '1';
+        }, 300);
+    }
+    
+    // Optional: Add a visual feedback to the button
+    const noBtn = document.getElementById('noBtn');
+    if (noBtn) {
+        noBtn.style.opacity = '0.7';
+        setTimeout(() => {
+            noBtn.style.opacity = '1';
+        }, 200);
+    }
+}
+
 // ========== PAGE 3: ENVELOPE PASSWORD ==========
 
 let envelopeClickCount = 0;
@@ -236,6 +265,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 checkPassword();
             }
         });
+    }
+
+    // Add touch support for sliding letter on mobile
+    const slidingLetter = document.getElementById('slidingLetter');
+    if (slidingLetter) {
+        slidingLetter.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            zoomInLetterPage3();
+        }, false);
+    }
+
+    // Add touch support for no button click
+    const noBtn = document.getElementById('noBtn');
+    if (noBtn) {
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            handleNoButtonClick(e);
+        }, false);
     }
 });
 
