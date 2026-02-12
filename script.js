@@ -84,40 +84,26 @@ function createFloatingHearts() {
 // ========== PAGE 2: NO BUTTON MOVEMENT ==========
 
 let noClickCount = 0;
-// cumulative scale for YES button on mobile
-let yesScale = 1;
-const YES_GROW_STEP = 0.14;
-const SAD_GIF_URL = 'https://media.tenor.com/22hwAGkxTDEAAAAM/we-bare-bears-sad.gif';
 
-function changeQuestionGifToSad() {
-    const qGif = document.querySelector('.question-gif');
-    if (qGif) qGif.src = SAD_GIF_URL;
-}
-
-function moveNoButton(e) {
+function moveNoButton() {
     const noBtn = document.getElementById('noBtn');
 
     noClickCount++;
 
-    // Consider touch-enabled devices and narrow viewports as mobile
-    const isMobile = window.innerWidth <= 480 || ('ontouchstart' in window && navigator.maxTouchPoints > 0);
+    // On small screens, don't move the button — make the YES button grow instead
+    const isMobile = window.innerWidth <= 480;
     if (isMobile) {
         const yesBtn = document.querySelector('.yes-btn');
         if (!yesBtn) return;
-
-        // Increase the yes button scale cumulatively (no cap)
-        yesScale += YES_GROW_STEP;
-        yesBtn.style.transition = 'transform 350ms cubic-bezier(0.22, 1, 0.36, 1)';
-        yesBtn.style.transform = `scale(${yesScale})`;
+        yesBtn.classList.add('grow');
+        // brief grow effect
+        setTimeout(() => yesBtn.classList.remove('grow'), 700);
 
         // small shake feedback on NO button
         if (noBtn) {
             noBtn.classList.add('shake');
             setTimeout(() => noBtn.classList.remove('shake'), 300);
         }
-
-        // Swap the question GIF to the requested sad GIF
-        changeQuestionGifToSad();
         return;
     }
 
@@ -147,37 +133,6 @@ function moveNoButton(e) {
         }, 100);
     }
 }
-
-// Attach mobile-friendly touch/click handlers to the buttons and ensure GIF swap
-window.addEventListener('DOMContentLoaded', () => {
-    const noBtn = document.getElementById('noBtn');
-    const yesBtn = document.querySelector('.yes-btn');
-
-    if (noBtn) {
-        noBtn.addEventListener('click', (ev) => {
-            moveNoButton(ev);
-            // also ensure GIF changes on explicit click
-            changeQuestionGifToSad();
-        });
-
-        noBtn.addEventListener('touchstart', (ev) => {
-            ev.preventDefault();
-            moveNoButton(ev);
-            changeQuestionGifToSad();
-        }, { passive: false });
-    }
-
-    if (yesBtn) {
-        yesBtn.addEventListener('click', () => {
-            changeQuestionGifToSad();
-        });
-
-        yesBtn.addEventListener('touchstart', (ev) => {
-            ev.preventDefault();
-            changeQuestionGifToSad();
-        }, { passive: false });
-    }
-});
 
 // ========== PAGE 3: ENVELOPE PASSWORD ==========
 
