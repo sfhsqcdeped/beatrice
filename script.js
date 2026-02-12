@@ -109,6 +109,11 @@ function moveNoButton(e) {
         yesScale += YES_GROW_STEP;
         yesBtn.style.transition = 'transform 350ms cubic-bezier(0.22, 1, 0.36, 1)';
         yesBtn.style.transform = `scale(${yesScale})`;
+        // Make sure the YES button is on top when it grows so it's tappable
+        try {
+            yesBtn.classList.add('grow');
+            yesBtn.style.zIndex = '80';
+        } catch (e) {}
 
         // small shake feedback on NO button
         if (noBtn) {
@@ -182,6 +187,22 @@ window.addEventListener('DOMContentLoaded', () => {
             // Navigate to the envelope page (same as the inline onclick)
             goToPage(3);
         }, { passive: false });
+
+        // Ensure pointer interactions work consistently across devices
+        // (pointer events unify mouse/touch/stylus). Also allow quick taps
+        // by setting touch-action via JS to avoid gesture delays.
+        try {
+            yesBtn.style.touchAction = 'manipulation';
+        } catch (e) {}
+
+        yesBtn.addEventListener('pointerup', (ev) => {
+            // Only handle primary pointer
+            if (ev.isPrimary === false) return;
+            ev.preventDefault();
+            ev.stopPropagation();
+            changeQuestionGifToSad();
+            goToPage(3);
+        });
     }
 });
 
