@@ -172,10 +172,11 @@ window.addEventListener('DOMContentLoaded', () => {
             changeQuestionGifToSad();
         });
 
+        // On touch, just run the GIF change but don't prevent default
+        // so the native click event (and the inline `onclick`) will still fire.
         yesBtn.addEventListener('touchstart', (ev) => {
-            ev.preventDefault();
             changeQuestionGifToSad();
-        }, { passive: false });
+        }, { passive: true });
     }
 });
 
