@@ -84,26 +84,40 @@ function createFloatingHearts() {
 // ========== PAGE 2: NO BUTTON MOVEMENT ==========
 
 let noClickCount = 0;
+// cumulative scale for YES button on mobile
+let yesScale = 1;
+const YES_GROW_STEP = 0.14;
+const SAD_GIF_URL = 'https://media.tenor.com/22hwAGkxTDEAAAAM/we-bare-bears-sad.gif';
 
-function moveNoButton() {
+function changeQuestionGifToSad() {
+    const qGif = document.querySelector('.question-gif');
+    if (qGif) qGif.src = SAD_GIF_URL;
+}
+
+function moveNoButton(e) {
     const noBtn = document.getElementById('noBtn');
 
     noClickCount++;
 
-    // On small screens, don't move the button — make the YES button grow instead
-    const isMobile = window.innerWidth <= 480;
+    // Consider touch-enabled devices and narrow viewports as mobile
+    const isMobile = window.innerWidth <= 480 || ('ontouchstart' in window && navigator.maxTouchPoints > 0);
     if (isMobile) {
         const yesBtn = document.querySelector('.yes-btn');
         if (!yesBtn) return;
-        yesBtn.classList.add('grow');
-        // brief grow effect
-        setTimeout(() => yesBtn.classList.remove('grow'), 700);
+
+        // Increase the yes button scale cumulatively (no cap)
+        yesScale += YES_GROW_STEP;
+        yesBtn.style.transition = 'transform 350ms cubic-bezier(0.22, 1, 0.36, 1)';
+        yesBtn.style.transform = `scale(${yesScale})`;
 
         // small shake feedback on NO button
         if (noBtn) {
             noBtn.classList.add('shake');
             setTimeout(() => noBtn.classList.remove('shake'), 300);
         }
+
+        // Swap the question GIF to the requested sad GIF
+        changeQuestionGifToSad();
         return;
     }
 
@@ -133,6 +147,37 @@ function moveNoButton() {
         }, 100);
     }
 }
+
+// Attach mobile-friendly touch/click handlers to the buttons and ensure GIF swap
+window.addEventListener('DOMContentLoaded', () => {
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.querySelector('.yes-btn');
+
+    if (noBtn) {
+        noBtn.addEventListener('click', (ev) => {
+            moveNoButton(ev);
+            // also ensure GIF changes on explicit click
+            changeQuestionGifToSad();
+        });
+
+        noBtn.addEventListener('touchstart', (ev) => {
+            ev.preventDefault();
+            moveNoButton(ev);
+            changeQuestionGifToSad();
+        }, { passive: false });
+    }
+
+    if (yesBtn) {
+        yesBtn.addEventListener('click', () => {
+            changeQuestionGifToSad();
+        });
+
+        yesBtn.addEventListener('touchstart', (ev) => {
+            ev.preventDefault();
+            changeQuestionGifToSad();
+        }, { passive: false });
+    }
+});
 
 // ========== PAGE 3: ENVELOPE PASSWORD ==========
 
@@ -215,16 +260,55 @@ function checkPassword() {
 
 function zoomInLetterPage3() {
     const slidingLetter = document.getElementById('slidingLetter');
-    slidingLetter.classList.add('zooming');
-    
-    // After zoom animation, go to page 4
-    setTimeout(() => {
-        goToPage(4);
-        envelopeClickCount = 0; // Reset for next visit
-        // Reset animation containers
+
+    // Create a clone to animate to full-screen smoothly without disturbing layout
+    const rect = slidingLetter.getBoundingClientRect();
+    const clone = slidingLetter.cloneNode(true);
+    clone.id = 'slidingLetterClone';
+    // Inline styles to start the clone at the same position/size
+    Object.assign(clone.style, {
+        position: 'fixed',
+        top: rect.top + 'px',
+        left: rect.left + 'px',
+        width: rect.width + 'px',
+        height: rect.height + 'px',
+        margin: '0',
+        transform: 'none',
+        borderRadius: getComputedStyle(slidingLetter).borderRadius || '8px',
+        zIndex: 1800,
+        boxShadow: '0 30px 80px rgba(0,0,0,0.4)',
+        transition: 'all 900ms cubic-bezier(0.22, 1, 0.36, 1)'
+    });
+
+    document.body.appendChild(clone);
+
+    // Force layout so transition will animate
+    // eslint-disable-next-line no-unused-expressions
+    clone.getBoundingClientRect();
+
+    // Expand to full screen
+    requestAnimationFrame(() => {
+        Object.assign(clone.style, {
+            top: '0px',
+            left: '0px',
+            width: '100vw',
+            height: '100vh',
+            borderRadius: '0px'
+        });
+    });
+
+    // After animation completes, navigate to page 4 and clean up
+    const onEnd = () => {
+        clone.removeEventListener('transitionend', onEnd);
+        // hide original containers to avoid duplicates
         document.getElementById('letterComingOut').style.display = 'none';
-        slidingLetter.classList.remove('zooming');
-    }, 800);
+        envelopeClickCount = 0; // Reset for next visit
+        // remove clone then go to page 4
+        document.body.removeChild(clone);
+        goToPage(4);
+    };
+
+    clone.addEventListener('transitionend', onEnd);
 }
 
 // Allow Enter key to submit password
