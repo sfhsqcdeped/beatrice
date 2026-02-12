@@ -172,11 +172,16 @@ window.addEventListener('DOMContentLoaded', () => {
             changeQuestionGifToSad();
         });
 
-        // On touch, just run the GIF change but don't prevent default
-        // so the native click event (and the inline `onclick`) will still fire.
+        // On touch, explicitly handle navigation and GIF change so
+        // the YES action works reliably on touch devices.
         yesBtn.addEventListener('touchstart', (ev) => {
+            // Prevent the browser from synthesizing a delayed click
+            // (avoids double handlers and ensures immediate response).
+            ev.preventDefault();
             changeQuestionGifToSad();
-        }, { passive: true });
+            // Navigate to the envelope page (same as the inline onclick)
+            goToPage(3);
+        }, { passive: false });
     }
 });
 
