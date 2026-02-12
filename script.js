@@ -1,829 +1,2111 @@
-// ========== PAGE NAVIGATION ==========
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-function goToPage(pageNumber) {
-    // Hide all pages
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
-    });
+body {
+    font-family: 'Lora', serif;
+    background: linear-gradient(135deg, #6a0dad 0%, #a855f7 50%, #d8b4fe 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: #331832;
+    position: relative;
+    max-width: 100vw;
+    width: 100%;
+}
 
-    // Show the target page
-    const targetPage = document.getElementById(`page${pageNumber}`);
-    if (targetPage) {
-        targetPage.classList.add('active');
-        window.scrollTo(0, 0);
+/* ========== BACKGROUND DECORATIVE DESIGN ========== */
 
-        // Trigger specific page actions
-        if (pageNumber === 1) {
-            startFloatingHearts();
-        }
-        if (pageNumber === 4) {
-            playTypewriterEffect();
-            letterAnimationEnabled = true;
-            document.getElementById('envelopeClickHint').style.display = 'block';
-        }
-        if (pageNumber === 7) {
-            createFloatingHearts();
-        }
+.background-decoration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.bg-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(200, 132, 252, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(255, 182, 193, 0.1) 0%, transparent 50%);
+    background-size: 100% 100%;
+    pointer-events: none;
+}
+
+.bg-circle {
+    position: absolute;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.bg-circle-1 {
+    width: 300px;
+    height: 300px;
+    top: -100px;
+    right: -100px;
+    animation: float 6s ease-in-out infinite;
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.bg-circle-2 {
+    width: 200px;
+    height: 200px;
+    bottom: 100px;
+    left: -80px;
+    animation: float 8s ease-in-out infinite;
+    animation-delay: 1s;
+    border-color: rgba(200, 132, 252, 0.2);
+}
+
+.bg-circle-3 {
+    width: 150px;
+    height: 150px;
+    top: 50%;
+    right: 5%;
+    animation: float 7s ease-in-out infinite;
+    animation-delay: 2s;
+    border-color: rgba(255, 182, 193, 0.15);
+}
+
+.bg-circle-4 {
+    width: 250px;
+    height: 250px;
+    bottom: -50px;
+    right: 10%;
+    animation: float 9s ease-in-out infinite;
+    animation-delay: 0.5s;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.bg-circle-5 {
+    width: 180px;
+    height: 180px;
+    top: 20%;
+    left: 10%;
+    animation: float 7.5s ease-in-out infinite;
+    animation-delay: 1.5s;
+    border-color: rgba(200, 132, 252, 0.15);
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) translateX(0px);
+    }
+    25% {
+        transform: translateY(-30px) translateX(20px);
+    }
+    50% {
+        transform: translateY(-60px) translateX(-20px);
+    }
+    75% {
+        transform: translateY(-30px) translateX(30px);
     }
 }
 
-// ========== FLOATING HEARTS ==========
 
-function startFloatingHearts() {
-    const container = document.querySelector('.floating-heart-bg');
-    if (!container) return;
 
-    // Clear previous hearts
-    container.innerHTML = '';
-
-    // Create hearts at intervals
-    setInterval(() => {
-        const heart = document.createElement('div');
-        heart.className = 'heart-float';
-        heart.innerHTML = '💜';
-
-        const randomLeft = Math.random() * 100;
-        const randomDuration = Math.random() * 3 + 4; 
-        const randomDelay = Math.random() * 2;
-
-        heart.style.left = randomLeft + '%';
-        heart.style.animationDuration = randomDuration + 's';
-        heart.style.animationDelay = randomDelay + 's';
-        heart.style.animation = `floatHeart ${randomDuration}s linear ${randomDelay}s forwards`;
-
-        container.appendChild(heart);
-
-        setTimeout(() => heart.remove(), (randomDuration + randomDelay) * 1000);
-    }, 500);
+.page {
+    display: none;
+    width: 100%;
+    min-height: 100vh;
+    padding: 20px;
+    animation: fadeIn 0.8s ease-in;
+    position: relative;
+    z-index: 10;
 }
 
-function createFloatingHearts() {
-    const container = document.querySelector('.floating-heart-animation');
-    if (!container) return;
+.page.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    container.innerHTML = '';
-
-    for (let i = 0; i < 15; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'heart-float';
-        heart.innerHTML = '💜';
-
-        const randomLeft = Math.random() * 100;
-        const randomDuration = Math.random() * 3 + 4;
-
-        heart.style.left = randomLeft + '%';
-        heart.style.animationDuration = randomDuration + 's';
-        heart.style.animation = `floatHeart ${randomDuration}s linear forwards`;
-
-        container.appendChild(heart);
-
-        setTimeout(() => heart.remove(), randomDuration * 1000);
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }
 
-// ========== PAGE 2: NO BUTTON MOVEMENT ==========
+/* ========== LETTER ANIMATION OVERLAY ========== */
 
-let noClickCount = 0;
-// cumulative scale for YES button on mobile
-let yesScale = 1;
-const YES_GROW_STEP = 0.14;
-const SAD_GIF_URL = 'https://media.tenor.com/22hwAGkxTDEAAAAM/we-bare-bears-sad.gif';
-
-function changeQuestionGifToSad() {
-    const qGif = document.querySelector('.question-gif');
-    if (qGif) qGif.src = SAD_GIF_URL;
+.letter-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.6s ease;
 }
 
-function moveNoButton(e) {
-    const noBtn = document.getElementById('noBtn');
+.letter-overlay.active {
+    display: flex;
+    animation: overlayFadeIn 0.6s ease forwards;
+}
 
-    noClickCount++;
+.letter-overlay.closing {
+    animation: overlayFadeOut 0.6s ease forwards;
+}
 
-    // Consider touch-enabled devices and narrow viewports as mobile
-    const isMobile = window.innerWidth <= 480 || ('ontouchstart' in window && navigator.maxTouchPoints > 0);
-    if (isMobile) {
-        const yesBtn = document.querySelector('.yes-btn');
-        if (!yesBtn) return;
-
-        // Increase the yes button scale cumulatively (no cap)
-        yesScale += YES_GROW_STEP;
-        yesBtn.style.transition = 'transform 350ms cubic-bezier(0.22, 1, 0.36, 1)';
-        yesBtn.style.transform = `scale(${yesScale})`;
-        // Make sure the YES button is on top when it grows so it's tappable
-        try {
-            yesBtn.classList.add('grow');
-            yesBtn.style.zIndex = '80';
-        } catch (e) {}
-
-        // small shake feedback on NO button
-        if (noBtn) {
-            noBtn.classList.add('shake');
-            setTimeout(() => noBtn.classList.remove('shake'), 300);
-        }
-
-        // Swap the question GIF to the requested sad GIF
-        changeQuestionGifToSad();
-        return;
+@keyframes overlayFadeIn {
+    from {
+        opacity: 0;
     }
-
-    // Desktop/tablet behavior: move the NO button within safe viewport bounds
-    const minX = 60;
-    const maxX = Math.max(minX + 10, window.innerWidth - 60);
-    const minY = 100;
-    const maxY = Math.max(minY + 10, window.innerHeight - 100);
-
-    // Calculate random position within safe bounds
-    const randomX = Math.random() * (maxX - minX) + minX;
-    const randomY = Math.random() * (maxY - minY) + minY;
-
-    if (noBtn) {
-        noBtn.classList.add('move');
-        noBtn.style.left = randomX + 'px';
-        noBtn.style.top = randomY + 'px';
-    }
-
-    // Make it slightly harder to catch each time
-    if (noClickCount > 5 && noBtn) {
-        setTimeout(() => {
-            const newRandomX = Math.random() * (maxX - minX) + minX;
-            const newRandomY = Math.random() * (maxY - minY) + minY;
-            noBtn.style.left = newRandomX + 'px';
-            noBtn.style.top = newRandomY + 'px';
-        }, 100);
+    to {
+        opacity: 1;
     }
 }
 
-// Attach mobile-friendly touch/click handlers to the buttons and ensure GIF swap
-window.addEventListener('DOMContentLoaded', () => {
-    const noBtn = document.getElementById('noBtn');
-    const yesBtn = document.querySelector('.yes-btn');
-
-    if (noBtn) {
-        noBtn.addEventListener('click', (ev) => {
-            moveNoButton(ev);
-            // also ensure GIF changes on explicit click
-            changeQuestionGifToSad();
-        });
-
-        noBtn.addEventListener('touchstart', (ev) => {
-            ev.preventDefault();
-            moveNoButton(ev);
-            changeQuestionGifToSad();
-        }, { passive: false });
+@keyframes overlayFadeOut {
+    from {
+        opacity: 1;
     }
-
-    if (yesBtn) {
-        yesBtn.addEventListener('click', () => {
-            changeQuestionGifToSad();
-        });
-
-        // On touch, explicitly handle navigation and GIF change so
-        // the YES action works reliably on touch devices.
-        yesBtn.addEventListener('touchstart', (ev) => {
-            // Prevent the browser from synthesizing a delayed click
-            // (avoids double handlers and ensures immediate response).
-            ev.preventDefault();
-            changeQuestionGifToSad();
-            // Navigate to the envelope page (same as the inline onclick)
-            goToPage(3);
-        }, { passive: false });
-
-        // Ensure pointer interactions work consistently across devices
-        // (pointer events unify mouse/touch/stylus). Also allow quick taps
-        // by setting touch-action via JS to avoid gesture delays.
-        try {
-            yesBtn.style.touchAction = 'manipulation';
-        } catch (e) {}
-
-        yesBtn.addEventListener('pointerup', (ev) => {
-            // Only handle primary pointer
-            if (ev.isPrimary === false) return;
-            ev.preventDefault();
-            ev.stopPropagation();
-            changeQuestionGifToSad();
-            goToPage(3);
-        });
-    }
-});
-
-// ========== PAGE 3: ENVELOPE PASSWORD ==========
-
-let envelopeClickCount = 0;
-let letterAnimationEnabled = false;
-
-window.addEventListener('DOMContentLoaded', () => {
-    const envelope = document.getElementById('envelope');
-    
-    if (envelope) {
-        envelope.addEventListener('click', handleEnvelopeClick);
-    }
-});
-
-function handleEnvelopeClick(e) {
-    if (e.target.closest('.envelope')) {
-        // If on page 4 and animation is enabled, show letter animation
-        if (letterAnimationEnabled && document.getElementById('page4').classList.contains('active')) {
-            openLetterAnimation();
-            return;
-        }
-        
-        // Otherwise handle envelope opening on page 3
-        envelopeClickCount++;
-
-        if (envelopeClickCount === 1) {
-            // First click: open the envelope flap
-            const flap = document.querySelector('.envelope-flap');
-            flap.classList.add('open');
-            
-            // Show password input after a delay
-            setTimeout(() => {
-                document.getElementById('passwordSection').style.display = 'flex';
-                document.querySelector('.envelope-hint').style.display = 'none';
-            }, 600);
-        }
+    to {
+        opacity: 0;
     }
 }
 
-function checkPassword() {
-    const passwordInput = document.getElementById('passwordInput');
-    const correctPassword = 'beatrice';
-    
-    if (passwordInput.value.toLowerCase() === correctPassword) {
-        // Correct password - show letter coming out animation
-        passwordInput.classList.remove('shake');
-        document.getElementById('passwordHint').textContent = '';
-        
-        // Hide password section
-        document.getElementById('passwordSection').style.display = 'none';
-        document.querySelector('.envelope-hint').style.display = 'none';
-        
-        // Show letter coming out of envelope
-        document.getElementById('letterComingOut').style.display = 'block';
-        
-        // Start playing background music
-        const bgMusic = document.getElementById('bgMusic');
-        if (bgMusic) {
-            isMusicPlaying = true;
-            document.getElementById('musicBtn').classList.add('playing');
-            document.getElementById('musicBtn').style.opacity = '1';
-            bgMusic.play().catch(() => {
-                console.log('Audio playback failed');
-            });
-        }
-    } else {
-        // Wrong password - show error with shake animation
-        passwordInput.classList.add('shake');
-        document.getElementById('passwordHint').textContent = 'Try again 💜';
-        
-        // Reset animation
-        setTimeout(() => {
-            passwordInput.classList.remove('shake');
-        }, 400);
-        
-        // Clear input for retry
-        passwordInput.value = '';
+.letter-overlay-content {
+    background: linear-gradient(135deg, #fef9f3 0%, #fdf5ee 100%);
+    border-radius: 12px;
+    padding: 50px 60px;
+    max-width: 700px;
+    max-height: 85vh;
+    box-shadow: 0 25px 100px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    border: 2px solid rgba(200, 132, 252, 0.4);
+    position: relative;
+    overflow-y: auto;
+    animation: letterZoomIn 0.8s cubic-bezier(0.28, 0.84, 0.42, 1) forwards;
+}
+
+.letter-overlay.closing .letter-overlay-content {
+    animation: letterZoomOut 0.6s cubic-bezier(0.42, 0, 0.58, 1) forwards;
+}
+
+@keyframes letterZoomIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) rotateX(-30deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotateX(0deg);
     }
 }
 
-function zoomInLetterPage3() {
-    const slidingLetter = document.getElementById('slidingLetter');
-
-    // Create a clone to animate to full-screen smoothly without disturbing layout
-    const rect = slidingLetter.getBoundingClientRect();
-    const clone = slidingLetter.cloneNode(true);
-    clone.id = 'slidingLetterClone';
-    // Inline styles to start the clone at the same position/size
-    Object.assign(clone.style, {
-        position: 'fixed',
-        top: rect.top + 'px',
-        left: rect.left + 'px',
-        width: rect.width + 'px',
-        height: rect.height + 'px',
-        margin: '0',
-        transform: 'none',
-        borderRadius: getComputedStyle(slidingLetter).borderRadius || '8px',
-        zIndex: 1800,
-        boxShadow: '0 30px 80px rgba(0,0,0,0.4)',
-        transition: 'all 900ms cubic-bezier(0.22, 1, 0.36, 1)'
-    });
-
-    document.body.appendChild(clone);
-
-    // Force layout so transition will animate
-    // eslint-disable-next-line no-unused-expressions
-    clone.getBoundingClientRect();
-
-    // Expand to full screen
-    requestAnimationFrame(() => {
-        Object.assign(clone.style, {
-            top: '0px',
-            left: '0px',
-            width: '100vw',
-            height: '100vh',
-            borderRadius: '0px'
-        });
-    });
-
-    // After animation completes, navigate to page 4 and clean up
-    const onEnd = () => {
-        clone.removeEventListener('transitionend', onEnd);
-        // hide original containers to avoid duplicates
-        document.getElementById('letterComingOut').style.display = 'none';
-        envelopeClickCount = 0; // Reset for next visit
-        // remove clone then go to page 4
-        document.body.removeChild(clone);
-        goToPage(4);
-    };
-
-    clone.addEventListener('transitionend', onEnd);
-}
-
-// Allow Enter key to submit password
-document.addEventListener('DOMContentLoaded', () => {
-    const passwordInput = document.getElementById('passwordInput');
-    if (passwordInput) {
-        passwordInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                checkPassword();
-            }
-        });
+@keyframes letterZoomOut {
+    0% {
+        opacity: 1;
+        transform: scale(1) rotateX(0deg);
     }
-});
-
-// ========== PAGE 4: TYPEWRITER EFFECT ==========
-
-let isTyping = false;
-
-function playTypewriterEffect() {
-    if (isTyping) return;
-    
-    isTyping = true;
-    
-    const letterContent = document.getElementById('letterContent');
-    const fullHTML = letterContent.innerHTML;
-    
-    // Store original HTML and clear content
-    letterContent.innerHTML = '';
-    
-    let htmlIndex = 0;
-    const speed = 30; // milliseconds per character
-    const sentencePauseTime = 400; // pause after sentence endings
-    
-    function typeNextCharacter() {
-        if (htmlIndex >= fullHTML.length) {
-            isTyping = false;
-            // Show all pause spans are hidden
-            const pauseSpans = letterContent.querySelectorAll('.pause');
-            pauseSpans.forEach(span => span.style.display = 'none');
-            return;
-        }
-        
-        // Get character at current index
-        const char = fullHTML[htmlIndex];
-        
-        // Check if we're at the start of an HTML tag
-        if (char === '<') {
-            // Find the end of the tag
-            const endTag = fullHTML.indexOf('>', htmlIndex);
-            if (endTag !== -1) {
-                // Check if it's a pause span
-                const tag = fullHTML.substring(htmlIndex, endTag + 1);
-                if (tag.includes('class="pause"')) {
-                    // Extract pause duration
-                    const durationMatch = tag.match(/data-duration="(\d+)"/);
-                    const duration = durationMatch ? parseInt(durationMatch[1]) : 1000;
-                    
-                    // Add the pause span to DOM (hidden)
-                    letterContent.innerHTML += tag;
-                    htmlIndex = endTag + 1;
-                    
-                    // Pause before continuing
-                    setTimeout(typeNextCharacter, duration);
-                    return;
-                } else {
-                    // Regular tag (like br)
-                    letterContent.innerHTML += tag;
-                    htmlIndex = endTag + 1;
-                    typeNextCharacter();
-                    return;
-                }
-            }
-        }
-        
-        // Regular character
-        letterContent.innerHTML += char;
-        
-        // Check if this is a sentence ending
-        const isSentenceEnd = (char === '.' || char === '!' || char === '?');
-        
-        htmlIndex++;
-        
-        // Add pause after sentence endings
-        if (isSentenceEnd) {
-            setTimeout(typeNextCharacter, speed + sentencePauseTime);
-        } else {
-            setTimeout(typeNextCharacter, speed);
-        }
-    }
-    
-    typeNextCharacter();
-}
-
-// Add current date to letter
-window.addEventListener('DOMContentLoaded', () => {
-    const letterDate = document.getElementById('letterDate');
-    if (letterDate) {
-        // Use fixed date for the letter per request
-        letterDate.textContent = 'February 11, 2026';
-    }
-});
-
-// ========== MUSIC PLAYER (PAGE 5) ==========
-
-let isPageMusicPlaying = false;
-
-// Song list with file mappings and reasons
-const songs = [
-    { 
-        name: 'Torpe', 
-        file: 'torpe.mp3',
-        reason: 'Nilagay ko to kasi sobrang akong ako yung kanta HAHA. Ilang beses akong nagkaroon ng chance makipag-usap pero laging nauunahan ng hiya. Gusto ko magsalita, gusto ko sabihin lahat, pero natatalo ako ng pagiging torpe ko. Parang theme song siya ng buong high school life ko pagdating sayo.'
-    },
-    { 
-        name: 'RomCom', 
-        file: 'romcom.mp3',
-        reason: 'Nilagay ko to kasi parang romcom talaga yung story ko sayo. Yung hallway sightings, yung bestfriend mo naging kaklase ko, yung prom picture, yung sinabihan mo akong "snabber", parang mga eksena lang sa pelikula. Minsan feeling ko main character ako sa sarili kong love story… kaso di ko alam kung may happy ending nga ba.'
-    },
-    { 
-        name: 'Fallen', 
-        file: 'fallen.mp3',
-        reason: 'Ito yung realization ko na hindi na lang to simpleng crush. Nahulog na talaga ako. Kahit anong gawin ko, kahit anong iwas ko, ikaw pa rin bumabalik sa isip ko. Dito ko inamin sa sarili ko na in love na talaga ako.'
-    },
-    { 
-        name: 'Cant Take My Eyes off You', 
-        file: 'cant-take-my-eyes-off-you.mp3',
-        reason: 'Ito talaga ako tuwing nakikita kita sa hallway. Kahit kunwari busy ako o walang pake, hindi ko mapigilan tumingin. Parang automatic na hinahanap ka ng mata ko. Sobrang swak sa mga moment na lagi kitang nakikita sa building.'
-    },
-    { 
-        name: 'Paninindigan Kita', 
-        file: 'paninindigan-kita.mp3',
-        reason: 'Nilagay ko to kasi kahit torpe ako, sa totoo lang handa akong panindigan yung nararamdaman ko. Ngayon lang ako nagkalakas ng loob magsabi kasi malapit na tayo grumaduate. Ayoko namang magsisi dahil hindi ko sinabi to.'
-    },
-    { 
-        name: 'Made In Japan', 
-        file: 'made-in-japan.mp3',
-        reason: 'Eto pag naririnig ko to pero ikaw naaalala ko. Iba kasi yung aura mo. Parang ang classy mo, ang ganda mo, may sariling dating. Kaya siguro medyo nai-intimidate din ako sayo minsan. Ang taas kasi ng level mo tapos ako… eto, torpe.'
-    },
-    { 
-        name: 'Pasilyo', 
-        file: 'pasilyo.mp3',
-        reason: 'Pinili ko to kasi narealize ko nararamdaman ko sayo hindi lang basta kilig. May lalim, pang-matagalan kahit wala namang "tayo." Almost four years kitang gusto, tahimik lang pero totoo. Parang handa na akong sumugal kung may chance.'
-    }
-];
-
-function selectSong(index, songName) {
-    const musicPlayer = document.getElementById('musicPlayer');
-    const currentSongTitle = document.getElementById('currentSongTitle');
-    const songSource = musicPlayer.querySelector('source');
-    
-    // Stop background romantic music when selecting a song
-    const bgMusic = document.getElementById('bgMusic');
-    if (bgMusic) {
-        bgMusic.pause();
-        bgMusic.currentTime = 0;
-    }
-    
-    // Update the song source
-    songSource.src = `assets/music/${songs[index].file}`;
-    musicPlayer.load();
-    
-    // Update the song title in player
-    currentSongTitle.textContent = songName;
-    
-    // Update the song card display with reason
-    const selectedSongTitle = document.getElementById('selectedSongTitle');
-    const selectedSongReason = document.getElementById('selectedSongReason');
-    
-    if (selectedSongTitle) selectedSongTitle.textContent = songs[index].name;
-    if (selectedSongReason) selectedSongReason.textContent = songs[index].reason;
-    
-    // Update active button styling
-    const songItems = document.querySelectorAll('.song-item');
-    songItems.forEach((item, i) => {
-        if (i === index) {
-            item.classList.add('active');
-        } else {
-            item.classList.remove('active');
-        }
-    });
-    
-    // Reset player state
-    isPageMusicPlaying = false;
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    if (playPauseBtn) {
-        playPauseBtn.querySelector('.play-icon').style.display = 'inline';
-        playPauseBtn.querySelector('.pause-icon').style.display = 'none';
-    }
-    
-    // Reset progress
-    const progressFill = document.getElementById('progressFill');
-    const currentTimeDisplay = document.getElementById('currentTime');
-    if (progressFill) progressFill.style.width = '0%';
-    if (currentTimeDisplay) currentTimeDisplay.textContent = '0:00';
-}
-
-function togglePlayPause() {
-    const musicPlayer = document.getElementById('musicPlayer');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const playIcon = playPauseBtn.querySelector('.play-icon');
-    const pauseIcon = playPauseBtn.querySelector('.pause-icon');
-
-    if (!musicPlayer) return;
-
-    if (isPageMusicPlaying) {
-        musicPlayer.pause();
-        isPageMusicPlaying = false;
-        playIcon.style.display = 'inline';
-        pauseIcon.style.display = 'none';
-    } else {
-        // Stop background romantic music when playing a song
-        const bgMusic = document.getElementById('bgMusic');
-        if (bgMusic && !bgMusic.paused) {
-            bgMusic.pause();
-            bgMusic.currentTime = 0;
-        }
-        
-        musicPlayer.play().catch((error) => {
-            console.log('Music playback failed:', error);
-        });
-        isPageMusicPlaying = true;
-        playIcon.style.display = 'none';
-        pauseIcon.style.display = 'inline';
-        
-        // Show now playing notification
-        const nowPlaying = document.getElementById('nowPlaying');
-        const nowPlayingTitle = document.getElementById('nowPlayingTitle');
-        if (nowPlaying && nowPlayingTitle) {
-            nowPlayingTitle.textContent = document.getElementById('currentSongTitle').textContent;
-            nowPlaying.style.display = 'block';
-        }
+    100% {
+        opacity: 0;
+        transform: scale(0.3) rotateX(-30deg);
     }
 }
 
-// Update progress bar and time display
-window.addEventListener('DOMContentLoaded', () => {
-    const musicPlayer = document.getElementById('musicPlayer');
-    const progressBar = document.getElementById('progressBar');
-    const progressFill = document.getElementById('progressFill');
-    const currentTimeDisplay = document.getElementById('currentTime');
-    const durationDisplay = document.getElementById('duration');
-
-    if (musicPlayer) {
-        // Update duration when metadata loads
-        musicPlayer.addEventListener('loadedmetadata', () => {
-            durationDisplay.textContent = formatTime(musicPlayer.duration);
-        });
-
-        // Update progress bar and current time
-        musicPlayer.addEventListener('timeupdate', () => {
-            const percent = (musicPlayer.currentTime / musicPlayer.duration) * 100;
-            progressFill.style.width = percent + '%';
-            currentTimeDisplay.textContent = formatTime(musicPlayer.currentTime);
-        });
-
-        // Hide notification when music ends
-        musicPlayer.addEventListener('ended', () => {
-            const nowPlaying = document.getElementById('nowPlaying');
-            if (nowPlaying) {
-                nowPlaying.style.display = 'none';
-            }
-        });        // Handle ended event
-        musicPlayer.addEventListener('ended', () => {
-            isPageMusicPlaying = false;
-            const playPauseBtn = document.getElementById('playPauseBtn');
-            if (playPauseBtn) {
-                playPauseBtn.querySelector('.play-icon').style.display = 'inline';
-                playPauseBtn.querySelector('.pause-icon').style.display = 'none';
-            }
-        });
-    }
-
-    // Click on progress bar to seek
-    if (progressBar && musicPlayer) {
-        progressBar.addEventListener('click', (e) => {
-            const rect = progressBar.getBoundingClientRect();
-            const percent = (e.clientX - rect.left) / rect.width;
-            musicPlayer.currentTime = percent * musicPlayer.duration;
-        });
-    }
-});
-
-function formatTime(seconds) {
-    if (isNaN(seconds)) return '0:00';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+.letter-overlay-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    color: #a855f7;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
 }
 
-// ========== BACKGROUND MUSIC TOGGLE ==========
-
-let isMusicPlaying = false;
-
-function toggleMusic() {
-    const musicBtn = document.getElementById('musicBtn');
-    const bgMusic = document.getElementById('bgMusic');
-
-    isMusicPlaying = !isMusicPlaying;
-
-    if (isMusicPlaying) {
-        musicBtn.classList.add('playing');
-        musicBtn.style.opacity = '1';
-        bgMusic.play().catch(() => {
-            console.log('Music autoplay prevented by browser or file not found');
-            isMusicPlaying = false;
-            musicBtn.classList.remove('playing');
-            musicBtn.style.opacity = '0.6';
-        });
-    } else {
-        musicBtn.classList.remove('playing');
-        musicBtn.style.opacity = '0.6';
-        bgMusic.pause();
-    }
+.letter-overlay-close:hover {
+    transform: rotate(90deg);
+    color: #c084fc;
 }
 
-// Update music button visual state on load
-window.addEventListener('DOMContentLoaded', () => {
-    const musicBtn = document.getElementById('musicBtn');
-    const bgMusic = document.getElementById('bgMusic');
-    if (musicBtn) {
-        musicBtn.style.opacity = '0.6';
+.letter-overlay-content .letter-header {
+    margin-bottom: 25px;
+}
+
+.letter-overlay-content .letter-title {
+    font-size: 2.2rem;
+}
+
+.letter-overlay-content .letter-content {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+}
+
+.letter-overlay-content .letter-signature {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(106, 10, 173, 0.2);
+}
+
+.envelope-click-hint {
+    text-align: center;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+}
+
+.page-content {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Floating Hearts Background */
+.floating-heart-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.floating-heart-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Heart Animation */
+@keyframes floatHeart {
+    0% {
+        transform: translateY(100vh) translateX(0);
+        opacity: 0;
     }
-    if (bgMusic) {
-        bgMusic.volume = 0.3;
+    10% {
+        opacity: 1;
     }
-});
-
-// ========== INITIALIZATION ==========
-
-window.addEventListener('DOMContentLoaded', () => {
-    // Start on page 1
-    goToPage(1);
-    
-    // Initialize floating hearts on page 1
-    startFloatingHearts();
-});
-
-// ========== KEYBOARD SHORTCUTS ==========
-
-document.addEventListener('keydown', (e) => {
-    // Press 'Escape' to go back (on most pages)
-    if (e.key === 'Escape') {
-        const currentPage = document.querySelector('.page.active');
-        if (currentPage) {
-            const currentPageNumber = parseInt(currentPage.id.replace('page', ''));
-            if (currentPageNumber > 1) {
-                goToPage(currentPageNumber - 1);
-            }
-        }
+    90% {
+        opacity: 1;
     }
-
-    // Press 'Spacebar' to go to next page
-    if (e.code === 'Space') {
-        const currentPage = document.querySelector('.page.active');
-        if (currentPage && currentPage.id !== 'page3') {
-            const currentPageNumber = parseInt(currentPage.id.replace('page', ''));
-            if (currentPageNumber < 7) {
-                e.preventDefault();
-                goToPage(currentPageNumber + 1);
-            }
-        }
-    }
-});
-
-// ========== SMOOTH PAGE TRANSITIONS ==========
-
-// Add transition smooth behavior to all interactive elements
-document.addEventListener('DOMContentLoaded', () => {
-    // Enable smooth scrolling
-    document.documentElement.style.scrollBehavior = 'smooth';
-
-    // Add animation to buttons on hover
-    const buttons = document.querySelectorAll('.btn');
-    buttons.forEach(btn => {
-        btn.addEventListener('mouseenter', function() {
-            this.style.zIndex = '11';
-        });
-
-        btn.addEventListener('mouseleave', function() {
-            this.style.zIndex = '10';
-        });
-    });
-});
-
-// ========== PREVENT TEXT SELECTION ON GIF HOVER ==========
-
-window.addEventListener('DOMContentLoaded', () => {
-    const images = document.querySelectorAll('.cover-gif, .question-gif, .thank-you-gif');
-    images.forEach(img => {
-        img.style.userSelect = 'none';
-    });
-});
-
-// ========== ADDITIONAL BUTTON IMPROVEMENTS ==========
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Add ripple effect to buttons on click
-    const buttons = document.querySelectorAll('.btn');
-    
-    buttons.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            // Optional: add visual feedback
-            this.style.position = 'relative';
-            this.style.overflow = 'visible';
-        });
-    });
-});
-
-// ========== MOBILE VIEWPORT FIX ==========
-
-window.addEventListener('orientationchange', () => {
-    window.scrollTo(0, 0);
-});
-
-// Prevent zoom on double tap input focus
-document.addEventListener('touchstart', function(event) {
-    if (event.touches.length > 1) {
-        event.preventDefault();
-    }
-}, { passive: false });
-
-// ========== ANIMATION PERFORMANCE OPTIMIZATION ==========
-
-// Use requestAnimationFrame for smooth animations
-let animationFrameId;
-
-function optimizeAnimations() {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
-    if (prefersReducedMotion) {
-        // Reduce animation complexity for users who prefer reduced motion
-        const styleSheet = document.createElement('style');
-        styleSheet.innerHTML = `
-            * {
-                animation-duration: 0.1s !important;
-            }
-        `;
-        document.head.appendChild(styleSheet);
+    100% {
+        transform: translateY(-100vh) translateX(100px);
+        opacity: 0;
     }
 }
 
-// ========== LETTER ANIMATION FUNCTIONS ==========
+.heart-float {
+    position: fixed;
+    font-size: 2rem;
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 1;
+}
 
-function openLetterAnimation() {
-    const overlay = document.getElementById('letterOverlay');
-    const letterContent = document.getElementById('letterContent');
-    const fullText = letterContent.textContent;
-    
-    // Populate the overlay with letter content
-    const overlayContent = overlay.querySelector('.letter-overlay-content');
-    
-    // Create letter structure inside overlay
-    overlayContent.innerHTML = `
-        <div class="letter-overlay-close" onclick="closeLetterAnimation()">✕</div>
-        <div class="letter-header">
-            <h2 class="letter-title">A Letter From My Heart</h2>
-            <p class="letter-date" id="overlayLetterDate"></p>
-        </div>
-        <div class="letter-content" style="position: relative; z-index: 1; min-height: auto;">
-            ${fullText}
-        </div>
-        <div class="letter-signature">
-            With all my love,<br>
-            ❤️
-        </div>
-    `;
-    
-    // Copy the date from the original letter
-    const dateElement = document.getElementById('letterDate');
-    if (dateElement) {
-        document.getElementById('overlayLetterDate').textContent = dateElement.textContent;
+/* ========== FLYING AIRPLANE WITH HEART TRAIL ========== */
+
+
+
+/* ========== SCHOOL-THEMED ROMANCE CHARACTER ========== */
+
+.romance-character {
+    position: fixed;
+    pointer-events: none;
+    z-index: 4;
+    animation: characterFloat 8s ease-in-out infinite;
+}
+
+.character-svg {
+    width: 120px;
+    height: 150px;
+    filter: drop-shadow(0 4px 12px rgba(139, 69, 19, 0.3));
+}
+
+@keyframes characterFloat {
+    0% {
+        bottom: 10%;
+        right: 5%;
+        transform: rotate(0deg) scale(1);
     }
-    
-    // Show overlay with animation
-    overlay.classList.add('active');
+    25% {
+        bottom: 20%;
+        right: 10%;
+        transform: rotate(-5deg) scale(1.1);
+    }
+    50% {
+        bottom: 15%;
+        right: 15%;
+        transform: rotate(0deg) scale(1);
+    }
+    75% {
+        bottom: 25%;
+        right: 8%;
+        transform: rotate(5deg) scale(1.1);
+    }
+    100% {
+        bottom: 10%;
+        right: 5%;
+        transform: rotate(0deg) scale(1);
+    }
 }
 
-function closeLetterAnimation() {
-    const overlay = document.getElementById('letterOverlay');
-    overlay.classList.add('closing');
-    
-    setTimeout(() => {
-        overlay.classList.remove('active', 'closing');
-    }, 600);
+/* ========== BUTTONS ========== */
+
+.btn {
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
 }
 
-window.addEventListener('DOMContentLoaded', optimizeAnimations);
+.btn-glow {
+    background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
+    color: white;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* YES button grow effect for small screens */
+.yes-btn {
+    transform-origin: center;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+}
+
+.yes-btn.grow {
+    transform: scale(1.15);
+    box-shadow: 0 12px 40px rgba(168, 85, 247, 0.8);
+    z-index: 60;
+}
+
+/* Reuse shake keyframes for NO button feedback */
+.no-btn.shake {
+    animation: shake 0.35s;
+}
+
+.btn-glow:hover {
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.9);
+    transform: scale(1.05);
+}
+
+.btn-glow:active {
+    transform: scale(0.98);
+}
+
+.btn-nav {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    font-family: 'Lora', serif;
+    font-size: 0.9rem;
+}
+
+.btn-nav:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Back Button */
+.back-button {
+    position: fixed;
+    top: 25px;
+    left: 25px;
+    padding: 10px 18px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-family: 'Lora', serif;
+    transition: all 0.3s ease;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+    transform: translateX(-3px);
+}
+
+.back-button:active {
+    transform: translateX(-1px);
+}
+
+/* Sparkle Animation on Buttons */
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.7);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.button-group {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.button-nav {
+    margin-top: 40px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ========== PAGE 1: COVER PAGE ========== */
+
+.cover-page {
+    text-align: center;
+    z-index: 2;
+}
+
+.cover-gif {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    margin-bottom: 30px;
+    animation: slideInDown 0.8s ease-out;
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.main-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 4rem;
+    color: white;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 40px rgba(168, 85, 247, 0.6);
+    margin-bottom: 30px;
+    letter-spacing: -1px;
+    animation: fadeIn 1s ease-in;
+}
+
+/* ========== PAGE 2: QUESTION PAGE ========== */
+
+.question-page {
+    text-align: center;
+    z-index: 2;
+    padding-top: 60px;
+}
+
+.question-gif {
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    margin-bottom: 30px;
+    animation: slideInDown 0.8s ease-out;
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: white;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    margin-bottom: 30px;
+    animation: fadeIn 0.8s ease-in 0.2s backwards;
+}
+
+.question-buttons {
+    animation: fadeIn 0.8s ease-in 0.4s backwards;
+}
+
+/* Ensure question buttons sit above moving/animated decorations on small screens */
+.question-buttons {
+    position: relative;
+    z-index: 30;
+}
+
+/* NO Button Movement */
+.no-btn {
+    position: relative;
+    transition: none;
+}
+
+.no-btn.move {
+    position: fixed;
+    transition: all 0.3s ease;
+    max-width: calc(100vw - 40px) !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transform: translate(-50%, -50%);
+}
+
+/* ========== PAGE 3: ENVELOPE PASSWORD PAGE ========== */
+
+.envelope-page {
+    z-index: 2;
+    gap: 30px;
+    padding-top: 80px;
+}
+
+.envelope-container {
+    perspective: 1000px;
+    cursor: pointer;
+    animation: fadeIn 0.8s ease-in;
+}
+
+/* Mobile: stack envelope and password, keep password visible */
+@media (max-width: 600px) {
+    .envelope-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    .envelope {
+        width: 220px;
+        height: 150px;
+        transform-origin: center;
+        z-index: 3;
+    }
+
+    .envelope-flap {
+        height: 80px;
+    }
+
+    .password-section {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-top: 6px;
+        z-index: 4;
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .password-input {
+        width: 100%;
+        max-width: 360px;
+    }
+
+    /* Ensure letter coming out container doesn't overlap password when present */
+    .letter-coming-out {
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: none;
+        margin-top: 8px;
+        z-index: 4;
+    }
+
+    .sliding-letter {
+        width: 220px;
+        height: 150px;
+    }
+}
+
+.envelope {
+    width: 280px;
+    height: 190px;
+    background: linear-gradient(135deg, #fef9f3 0%, #fdf5ee 100%);
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    transition: all 0.4s ease;
+    cursor: pointer;
+    border: 2px solid rgba(200, 132, 252, 0.3);
+    overflow: visible;
+}
+
+.envelope:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 25px 70px rgba(168, 85, 247, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.envelope-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #e8d5f2 0%, #dfc4e8 100%);
+    border-radius: 8px;
+    z-index: 1;
+}
+
+.envelope-flap {
+    width: 100%;
+    height: 95px;
+    background: linear-gradient(135deg, #c084fc 0%, #b565f7 50%, #a855f7 100%);
+    border-radius: 8px 8px 0 0;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.6s ease;
+    transform-origin: top;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 1px 3px rgba(255, 255, 255, 0.3);
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.envelope-flap::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+    top: 0;
+    left: 0;
+}
+
+.envelope-flap-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);
+    border-radius: 8px 8px 0 0;
+}
+
+.envelope-wax-seal {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle at 30% 30%, #ff6b9d, #c2185b);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    box-shadow: 0 4px 15px rgba(194, 24, 91, 0.4), inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.envelope-flap.open {
+    transform: rotateX(180deg);
+}
+
+.envelope-body {
+    width: 100%;
+    height: 95px;
+    background: linear-gradient(135deg, #fff9f7 0%, #fef5f0 100%);
+    border-radius: 0 0 8px 8px;
+    position: relative;
+    z-index: 2;
+    border-top: 2px solid rgba(200, 132, 252, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.envelope-shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4), transparent);
+    border-radius: 0 0 40% 40%;
+}
+
+.envelope-lines {
+    position: absolute;
+    width: 80%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.envelope-lines .line {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(106, 10, 173, 0.2), transparent);
+}
+
+.envelope-decoration {
+    position: absolute;
+    font-size: 1.5rem;
+    z-index: 10;
+    animation: float-decoration 3s ease-in-out infinite;
+}
+
+.envelope-top-left {
+    top: -15px;
+    left: 10px;
+    animation-delay: 0s;
+}
+
+.envelope-top-right {
+    top: -15px;
+    right: 10px;
+    animation-delay: 0.5s;
+}
+
+.envelope-bottom-left {
+    bottom: -15px;
+    left: 10px;
+    animation-delay: 1s;
+}
+
+.envelope-bottom-right {
+    bottom: -15px;
+    right: 10px;
+    animation-delay: 1.5s;
+}
+
+@keyframes float-decoration {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(5deg);
+    }
+}
+
+.envelope-hint {
+    font-size: 0.9rem;
+    color: white;
+    margin-top: 15px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+.password-section {
+    animation: slideInUp 0.6s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.password-input {
+    padding: 12px 20px;
+    font-size: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    font-family: 'Lora', serif;
+}
+
+.password-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.password-input:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+}
+
+.password-hint {
+    color: white;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+.password-input.shake {
+    animation: shake 0.4s;
+}
+
+/* ========== LETTER COMING OUT OF ENVELOPE ========== */
+
+.letter-coming-out {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    cursor: pointer;
+}
+
+.sliding-letter {
+    width: 280px;
+    height: 190px;
+    background: linear-gradient(135deg, #fef9f3 0%, #fdf5ee 100%);
+    border-radius: 8px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    border: 2px solid rgba(200, 132, 252, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: letterSlideOut 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    transition: all 0.3s ease;
+}
+
+.sliding-letter:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.sliding-letter.zooming {
+    animation: letterZoomInFromEnvelope 0.8s cubic-bezier(0.28, 0.84, 0.42, 1) forwards;
+}
+
+.letter-coming-out-content {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes letterSlideOut {
+    0% {
+        opacity: 0;
+        transform: translateY(100px) scale(0.8) rotateX(-45deg);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(-20px) scale(1) rotateX(0deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotateX(0deg);
+    }
+}
+
+@keyframes letterZoomInFromEnvelope {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(40) translateX(100vw);
+    }
+}
+
+/* ========== PAGE 4: LOVE LETTER PAGE ========== */
+
+.letter-page {
+    z-index: 2;
+    padding: 100px 20px 40px 20px;
+}
+
+.vintage-paper {
+    background: linear-gradient(135deg, #f9f6f3 0%, #fefdfb 100%);
+    border-radius: 10px;
+    padding: 50px 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.05);
+    max-width: 700px;
+    width: 100%;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.8s ease-in;
+}
+
+.paper-texture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.02) 2px, rgba(0, 0, 0, 0.02) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 0, 0, 0.02) 2px, rgba(0, 0, 0, 0.02) 4px);
+    pointer-events: none;
+    border-radius: 10px;
+}
+
+.letter-header {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+.letter-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: #6a0dad;
+    margin-bottom: 10px;
+}
+
+.letter-date {
+    color: #999;
+    font-style: italic;
+}
+
+.letter-content {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #331832;
+    min-height: auto;
+    margin-bottom: 30px;
+    text-align: left;
+    position: relative;
+    z-index: 1;
+    white-space: normal;
+    word-wrap: break-word;
+    display: block;
+}
+
+.pause {
+    display: none;
+}
+
+@keyframes typeWriter {
+    from {
+        width: 0;
+        opacity: 0;
+    }
+    to {
+        width: 100%;
+        opacity: 1;
+    }
+}
+
+.letter-signature {
+    text-align: right;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: 0.8px;
+    color: #a855f7;
+    position: relative;
+    z-index: 1;
+}
+
+.letter-nav {
+    margin-top: 30px;
+}
+
+/* ========== PAGE 5: SONG PAGE ========== */
+
+.song-page {
+    z-index: 2;
+    gap: 40px;
+    padding-top: 80px;
+    position: relative;
+}
+
+/* Flower Decorations */
+.flower-decoration {
+    position: fixed;
+    font-size: 4rem;
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 0;
+    animation: sway 4s ease-in-out infinite;
+}
+
+.flower-left {
+    top: 15%;
+    left: 5%;
+    animation-delay: 0s;
+}
+
+.flower-right {
+    top: 30%;
+    right: 5%;
+    animation-delay: 2s;
+}
+
+@keyframes sway {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+}
+
+/* Now Playing Notification */
+.now-playing {
+    background: linear-gradient(135deg, rgba(217, 70, 239, 0.4) 0%, rgba(168, 85, 247, 0.4) 100%);
+    border: 2px solid rgba(217, 70, 239, 0.8);
+    border-radius: 50px;
+    padding: 12px 30px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(217, 70, 239, 0.3);
+    animation: slideInDown 0.6s ease-out;
+}
+
+.now-playing-text {
+    color: white;
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    margin: 0;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+#nowPlayingTitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffd6ff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.songs-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    max-width: 500px;
+}
+
+.songs-list {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    animation: fadeIn 0.8s ease-in 0.2s backwards;
+}
+
+.song-item {
+    padding: 14px 16px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 3px solid rgba(168, 85, 247, 0.6);
+    border-radius: 14px;
+    color: white;
+    font-family: 'Lora', serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    text-align: center;
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.song-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    transition: left 0.5s ease;
+}
+
+.song-item:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border-color: rgba(168, 85, 247, 1);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(168, 85, 247, 0.3);
+}
+
+.song-item:hover::before {
+    left: 100%;
+}
+
+.song-item.active {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.6) 0%, rgba(217, 70, 239, 0.6) 100%);
+    border-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.7), inset 0 0 15px rgba(255, 255, 255, 0.1);
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.music-player-container {
+    width: 100%;
+    max-width: 400px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    padding: 40px 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    animation: slideInUp 0.8s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+.album-cover-wrapper {
+    perspective: 1200px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotateX(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotateX(2deg);
+    }
+}
+
+.album-cover {
+    width: 280px;
+    height: 280px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    position: relative;
+    transform: translateZ(0);
+}
+
+.cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.album-shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, transparent 0%, transparent 40%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 60%, transparent 100%);
+    pointer-events: none;
+}
+
+.player-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.song-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    margin: 0;
+}
+
+.song-artist {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    font-style: italic;
+}
+
+.hidden-player {
+    display: none;
+}
+
+.player-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.control-btn {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #a855f7 0%, #d946ef 100%);
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(168, 85, 247, 0.4);
+}
+
+.control-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 30px rgba(168, 85, 247, 0.6);
+}
+
+.control-btn:active {
+    transform: scale(0.95);
+}
+
+.progress-bar-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #a855f7 0%, #d946ef 100%);
+    border-radius: 10px;
+    transition: width 0.1s linear;
+}
+
+.time-display {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.song-text {
+    max-width: 500px;
+    text-align: center;
+    animation: fadeIn 0.8s ease-in 0.3s backwards;
+}
+
+.song-reason {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.song-placeholder {
+    color: rgba(255, 255, 255, 0.9);
+    font-style: italic;
+    line-height: 1.6;
+}
+
+/* ========== PAGE 6: PHOTO GALLERY PAGE ========== */
+
+.gallery-page {
+    z-index: 2;
+    gap: 30px;
+    padding: 100px 20px 40px 20px;
+}
+
+.photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 900px;
+    animation: fadeIn 0.8s ease-in 0.2s backwards;
+}
+
+@media (max-width: 768px) {
+    .photo-gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .photo-gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+}
+
+.photo-slot {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 15px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+    border: 3px solid rgba(168, 85, 247, 0.4);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.photo-slot:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.6);
+}
+
+.photo-placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(10%);
+    transition: filter 0.3s ease;
+}
+
+.photo-slot:hover .photo-placeholder {
+    filter: grayscale(0%);
+}
+
+/* ========== PAGE 7: THANK YOU PAGE ========== */
+
+.thank-you-page {
+    text-align: center;
+    z-index: 2;
+    gap: 20px;
+}
+
+.thank-you-gif {
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideInUp 0.8s ease-out;
+}
+
+.thank-you-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 3rem;
+    letter-spacing: -0.5px;
+    color: white;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 40px rgba(168, 85, 247, 0.6);
+    animation: fadeIn 0.8s ease-in 0.2s backwards;
+}
+
+.thank-you-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    animation: fadeIn 0.8s ease-in 0.4s backwards;
+}
+
+/* ========== PLAYLIST STYLES (Page 5) ========== */
+
+.playlist-intro {
+    max-width: 700px;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    animation: fadeIn 0.8s ease-in 0.4s backwards;
+}
+
+.playlist-intro p {
+    font-family: 'Lora', serif;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.8;
+    margin: 0;
+    font-style: italic;
+}
+
+.playlist-container {
+    width: 100%;
+    max-width: 600px;
+    animation: fadeIn 0.8s ease-in 0.4s backwards;
+}
+
+.song-card {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(217, 70, 239, 0.1) 100%);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 18px;
+    padding: 30px;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+    animation: slideInUp 0.6s ease-out 0.5s backwards;
+}
+
+.song-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.song-card:hover {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(217, 70, 239, 0.2) 100%);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
+    transform: translateY(-5px);
+}
+
+.song-card:hover::before {
+    left: 100%;
+}
+
+.card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    margin: 0 0 15px 0;
+    position: relative;
+    z-index: 1;
+}
+
+.card-reason {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.7;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* ========== MUSIC TOGGLE ========== */
+
+.music-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 100;
+}
+
+.music-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.music-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.9);
+}
+
+.music-btn.playing {
+    animation: bounce 0.6s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+
+@media (max-width: 768px) {
+    .back-button {
+        top: 20px;
+        left: 20px;
+        padding: 10px 18px;
+        font-size: 0.85rem;
+    }
+
+    .character-svg {
+        width: 100px;
+        height: 125px;
+    }
+
+    .main-title {
+        font-size: 2.5rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .flower-decoration {
+        font-size: 3rem;
+    }
+
+    .now-playing {
+        padding: 10px 20px;
+    }
+
+    .now-playing-text {
+        font-size: 0.9rem;
+    }
+
+    #nowPlayingTitle {
+        font-size: 1rem;
+    }
+
+    .cover-gif,
+    .question-gif,
+    .thank-you-gif {
+        max-width: 280px;
+        border-radius: 15px;
+    }
+
+    .music-player-container {
+        max-width: 90%;
+        padding: 30px 20px;
+        gap: 20px;
+    }
+
+    .songs-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .song-item {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+    }
+
+    .album-cover {
+        width: 200px;
+        height: 200px;
+    }
+
+    .song-title {
+        font-size: 1.5rem;
+    }
+
+    .control-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 1.3rem;
+    }
+
+    .player-info {
+        gap: 6px;
+    }
+
+    .song-reason {
+        font-size: 1.1rem;
+    }
+
+    .song-placeholder {
+        font-size: 0.95rem;
+    }
+
+    .envelope {
+        width: 220px;
+        height: 150px;
+    }
+
+    .btn {
+        padding: 10px 25px;
+        font-size: 0.95rem;
+    }
+
+    .photo-gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .playlist-intro {
+        max-width: 90%;
+        padding: 20px;
+    }
+
+    .playlist-intro p {
+        font-size: 1rem;
+    }
+
+    .playlist-container {
+        max-width: 90%;
+    }
+
+    .song-card {
+        padding: 20px;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+    }
+
+    .card-reason {
+        font-size: 0.95rem;
+    }
+
+    .music-toggle {
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .music-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+
+    .thank-you-title {
+        font-size: 2rem;
+    }
+
+    .thank-you-subtitle {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-title {
+        font-size: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+    }
+
+    .character-svg {
+        width: 85px;
+        height: 110px;
+    }
+
+    .flower-decoration {
+        font-size: 2.5rem;
+    }
+
+    .now-playing {
+        padding: 8px 16px;
+    }
+
+    .now-playing-text {
+        font-size: 0.8rem;
+    }
+
+    #nowPlayingTitle {
+        font-size: 0.9rem;
+    }
+
+    .music-player-container {
+        padding: 25px 15px;
+        gap: 15px;
+    }
+
+    .songs-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .song-item {
+        padding: 8px 10px;
+        font-size: 0.75rem;
+    }
+
+    .album-cover {
+        width: 160px;
+        height: 160px;
+    }
+
+    .song-title {
+        font-size: 1.3rem;
+    }
+
+    .control-btn {
+        width: 55px;
+        height: 55px;
+        font-size: 1.2rem;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    .cover-gif,
+    .question-gif,
+    .thank-you-gif {
+        max-width: 90%;
+        border-radius: 12px;
+    }
+
+    .playlist-intro {
+        max-width: 95%;
+        padding: 15px;
+    }
+
+    .playlist-intro p {
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    .playlist-container {
+        max-width: 95%;
+    }
+
+    .song-card {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+
+    .card-reason {
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+
+    .envelope {
+        width: 180px;
+        height: 120px;
+    }
+
+    .photo-gallery {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+    .thank-you-gif {
+        max-width: 300px;
+    }
+
+    .button-group {
+        gap: 15px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    .vintage-paper {
+        padding: 30px 20px;
+    }
+
+    .letter-title {
+        font-size: 1.8rem;
+    }
+
+    .letter-content {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .letter-signature {
+        font-size: 1.2rem;
+    }
+
+    .song-container {
+        max-width: 100%;
+    }
+
+    .song-container iframe {
+        height: 300px !important;
+    }
+
+    .thank-you-title {
+        font-size: 2rem;
+    }
+
+    .thank-you-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .music-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+        bottom: 20px;
+        right: 20px;
+    }
+
+
+@media (max-width: 480px) {
+    .page {
+        padding: 15px;
+    }
+
+    .back-button {
+        top: 15px;
+        left: 15px;
+        padding: 8px 14px;
+        font-size: 0.8rem;
+    }
+
+    .main-title {
+        font-size: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+    }
+
+    .cover-gif,
+    .question-gif,
+    .thank-you-gif {
+        max-width: 250px;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        font-size: 0.85rem;
+    }
+
+    .button-group {
+        gap: 10px;
+        flex-direction: column;
+    }
+
+    .vintage-paper {
+        padding: 25px 15px;
+        border-radius: 8px;
+    }
+
+    .letter-title {
+        font-size: 1.5rem;
+    }
+
+    .letter-content {
+        font-size: 0.95rem;
+    }
+
+    .thank-you-title {
+        font-size: 1.5rem;
+    }
+
+    .thank-you-subtitle {
+        font-size: 1rem;
+    }
+
+    .song-reason {
+        font-size: 1.1rem;
+    }
+
+    .song-placeholder {
+        font-size: 0.9rem;
+    }
+}
+
+/* ========== ACCESSIBILITY & IMPROVEMENTS ========== */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(168, 85, 247, 0.6);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(168, 85, 247, 0.8);
+}
+
+/* Additional mobile refinements for small phones */
+@media (max-width: 420px) {
+    .page-content {
+        padding: 12px;
+        max-width: 100%;
+    }
+
+    .main-title {
+        font-size: 1.6rem;
+        line-height: 1.15;
+        text-align: center;
+        margin-bottom: 18px;
+    }
+
+    .romance-character {
+        display: none;
+    }
+
+    .music-player-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .album-cover {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto;
+    }
+
+    .player-info {
+        text-align: center;
+        gap: 6px;
+    }
+
+    .songs-list {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .song-item {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+    }
+
+    .progress-bar {
+        width: 100%;
+    }
+
+    .photo-gallery {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .envelope {
+        width: 150px;
+        height: 100px;
+        margin: 0 auto;
+    }
+
+    .letter-coming-out {
+        top: 58%;
+    }
+
+    .sliding-letter {
+        width: 220px;
+        height: 150px;
+        padding: 10px;
+    }
+
+    .letter-overlay-content {
+        padding: 20px;
+        max-width: 95%;
+        margin: 0 10px;
+    }
+
+    .letter-overlay-close {
+        top: 10px;
+        right: 12px;
+        font-size: 1.6rem;
+    }
+
+    .back-button {
+        top: 10px;
+        left: 10px;
+        padding: 6px 10px;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 10px 14px;
+        box-sizing: border-box;
+    }
+
+    .vintage-paper {
+        padding: 18px 14px;
+    }
+
+    .letter-title {
+        font-size: 1.4rem;
+    }
+
+    .letter-content {
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+}
+
+/* Mobile: ensure envelope and password stack without overlap */
+@media (max-width: 480px) {
+    .envelope-page {
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 30px;
+    }
+
+    .envelope-container {
+        margin-bottom: 12px;
+        z-index: 6;
+    }
+
+    .password-section {
+        position: static !important;
+        margin-top: 12px;
+        z-index: 4;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .password-input {
+        width: calc(100% - 40px);
+        max-width: 360px;
+        box-sizing: border-box;
+    }
+
+    .envelope-hint {
+        margin-bottom: 6px;
+    }
+}
