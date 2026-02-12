@@ -632,13 +632,15 @@ body {
 /* Mobile: stack envelope and password, keep password visible */
 @media (max-width: 768px) {
     .envelope-container {
-        gap: 15px;
-        padding: 0 10px;
+        gap: 20px;
+        padding: 0 15px;
+        width: 100%;
+        max-width: none;
     }
 
     .envelope {
-        width: min(85vw, 280px);
-        height: min(57.5vw, 190px);
+        width: clamp(240px, 80vw, 280px);
+        height: clamp(160px, 53.3vw, 190px);
         transform-origin: center;
         z-index: 3;
     }
@@ -651,17 +653,19 @@ body {
         display: flex !important;
         flex-direction: column;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
         margin-top: 0;
         z-index: 4;
         width: 100%;
-        padding: 0 10px;
+        padding: 0 15px;
+        box-sizing: border-box;
     }
 
     .password-input {
         width: 100%;
-        max-width: 85vw;
+        max-width: 280px;
         font-size: 16px;
+        box-sizing: border-box;
     }
 
     /* Ensure letter coming out container doesn't overlap password when present */
@@ -670,42 +674,113 @@ body {
         top: 0;
         left: 0;
         transform: none;
-        margin-top: 8px;
+        margin-top: 15px;
         z-index: 4;
         width: 100%;
-        max-width: 85vw;
-        padding: 0 10px;
+        max-width: 280px;
+        padding: 0;
     }
 
     .sliding-letter {
-        width: min(85vw, 280px);
-        height: min(57.5vw, 190px);
+        width: clamp(240px, 80vw, 280px);
+        height: clamp(160px, 53.3vw, 190px);
+    }
+}
+
+@media (max-width: 600px) {
+    .envelope-page {
+        padding-top: 60px;
+        gap: 20px;
+    }
+
+    .envelope {
+        width: clamp(220px, 75vw, 260px);
+        height: clamp(150px, 50vw, 175px);
+    }
+
+    .password-section {
+        max-width: 280px;
+    }
+
+    .sliding-letter {
+        width: clamp(220px, 75vw, 260px);
+        height: clamp(150px, 50vw, 175px);
     }
 }
 
 @media (max-width: 480px) {
+    .envelope-container {
+        gap: 15px;
+        padding: 0 12px;
+    }
+
     .envelope {
-        width: min(90vw, 240px);
-        height: min(61.2vw, 163px);
+        width: clamp(200px, 70vw, 240px);
+        height: clamp(135px, 47vw, 160px);
+    }
+
+    .envelope-flap {
+        height: 48%;
     }
 
     .password-input {
-        max-width: 90vw;
+        max-width: 100%;
+        font-size: 16px;
+        padding: 12px 16px;
+    }
+
+    .password-section {
+        padding: 0 12px;
+        gap: 10px;
+        max-width: 100%;
+    }
+
+    .letter-coming-out {
+        max-width: 100%;
+        margin-top: 12px;
+        padding: 0 12px;
+    }
+
+    .sliding-letter {
+        width: clamp(200px, 70vw, 240px);
+        height: clamp(135px, 47vw, 160px);
+    }
+
+    .envelope-hint {
+        font-size: 0.85rem;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 380px) {
+    .envelope {
+        width: clamp(180px, 65vw, 220px);
+        height: clamp(125px, 43vw, 148px);
+    }
+
+    .sliding-letter {
+        width: clamp(180px, 65vw, 220px);
+        height: clamp(125px, 43vw, 148px);
+    }
+
+    .envelope-container {
+        gap: 12px;
+        padding: 0 10px;
+    }
+
+    .password-input {
+        width: 100%;
+        max-width: none;
         font-size: 16px;
     }
 
     .password-section {
         padding: 0 10px;
+        width: 100%;
     }
 
     .letter-coming-out {
-        max-width: 90vw;
         padding: 0 10px;
-    }
-
-    .sliding-letter {
-        width: min(90vw, 240px);
-        height: min(61.2vw, 163px);
     }
 }
 
@@ -722,6 +797,27 @@ body {
     overflow: visible;
 }
 
+@media (max-width: 600px) {
+    .envelope {
+        border-radius: 6px;
+        border: 1.5px solid rgba(200, 132, 252, 0.3);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2), inset 0 0.5px 0 rgba(255, 255, 255, 0.6);
+    }
+}
+
+@media (max-width: 480px) {
+    .envelope {
+        border-radius: 5px;
+        border: 1.5px solid rgba(200, 132, 252, 0.25);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), inset 0 0.5px 0 rgba(255, 255, 255, 0.5);
+    }
+
+    .envelope:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 12px 35px rgba(168, 85, 247, 0.25), inset 0 0.5px 0 rgba(255, 255, 255, 0.5);
+    }
+}
+
 .envelope:hover {
     transform: translateY(-15px);
     box-shadow: 0 25px 70px rgba(168, 85, 247, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.8);
@@ -734,6 +830,18 @@ body {
     background: linear-gradient(135deg, #e8d5f2 0%, #dfc4e8 100%);
     border-radius: 8px;
     z-index: 1;
+}
+
+@media (max-width: 600px) {
+    .envelope-back {
+        border-radius: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .envelope-back {
+        border-radius: 5px;
+    }
 }
 
 .envelope-flap {
@@ -751,6 +859,20 @@ body {
     align-items: center;
     justify-content: center;
     overflow: hidden;
+}
+
+@media (max-width: 600px) {
+    .envelope-flap {
+        border-radius: 6px 6px 0 0;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15), inset 0 0.5px 2px rgba(255, 255, 255, 0.25);
+    }
+}
+
+@media (max-width: 480px) {
+    .envelope-flap {
+        border-radius: 5px 5px 0 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), inset 0 0.5px 2px rgba(255, 255, 255, 0.2);
+    }
 }
 
 .envelope-flap::before {
@@ -788,6 +910,23 @@ body {
     transform: translate(-50%, -50%);
 }
 
+@media (max-width: 600px) {
+    .envelope-wax-seal {
+        width: 40px;
+        height: 40px;
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .envelope-wax-seal {
+        width: 35px;
+        height: 35px;
+        font-size: 1.2rem;
+        box-shadow: 0 2px 10px rgba(194, 24, 91, 0.3), inset 0 -1px 3px rgba(0, 0, 0, 0.2);
+    }
+}
+
 .envelope-flap.open {
     transform: rotateX(180deg);
 }
@@ -805,6 +944,18 @@ body {
     justify-content: center;
 }
 
+@media (max-width: 600px) {
+    .envelope-body {
+        border-top: 1.5px solid rgba(200, 132, 252, 0.2);
+    }
+}
+
+@media (max-width: 480px) {
+    .envelope-body {
+        border-top: 1px solid rgba(200, 132, 252, 0.15);
+    }
+}
+
 .envelope-shine {
     position: absolute;
     top: 0;
@@ -813,6 +964,20 @@ body {
     height: 30%;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4), transparent);
     border-radius: 0 0 40% 40%;
+}
+
+@media (max-width: 600px) {
+    .envelope-shine {
+        height: 28%;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), transparent);
+    }
+}
+
+@media (max-width: 480px) {
+    .envelope-shine {
+        height: 25%;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent);
+    }
 }
 
 .envelope-lines {
@@ -828,6 +993,28 @@ body {
     width: 100%;
     height: 1px;
     background: linear-gradient(to right, transparent, rgba(106, 10, 173, 0.2), transparent);
+}
+
+@media (max-width: 600px) {
+    .envelope-lines {
+        gap: 6px;
+    }
+
+    .envelope-lines .line {
+        height: 0.8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .envelope-lines {
+        gap: 5px;
+        height: 65%;
+    }
+
+    .envelope-lines .line {
+        height: 0.8px;
+        background: linear-gradient(to right, transparent, rgba(106, 10, 173, 0.15), transparent);
+    }
 }
 
 .envelope-decoration {
@@ -861,6 +1048,59 @@ body {
     animation-delay: 1.5s;
 }
 
+@media (max-width: 600px) {
+    .envelope-decoration {
+        font-size: 1.2rem;
+    }
+
+    .envelope-top-left {
+        top: -12px;
+        left: 8px;
+    }
+
+    .envelope-top-right {
+        top: -12px;
+        right: 8px;
+    }
+
+    .envelope-bottom-left {
+        bottom: -12px;
+        left: 8px;
+    }
+
+    .envelope-bottom-right {
+        bottom: -12px;
+        right: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .envelope-decoration {
+        font-size: 1rem;
+        opacity: 0.9;
+    }
+
+    .envelope-top-left {
+        top: -10px;
+        left: 6px;
+    }
+
+    .envelope-top-right {
+        top: -10px;
+        right: 6px;
+    }
+
+    .envelope-bottom-left {
+        bottom: -10px;
+        left: 6px;
+    }
+
+    .envelope-bottom-right {
+        bottom: -10px;
+        right: 6px;
+    }
+}
+
 @keyframes float-decoration {
     0%, 100% {
         transform: translateY(0) rotate(0deg);
@@ -875,6 +1115,21 @@ body {
     color: white;
     margin-top: 15px;
     animation: pulse 2s infinite;
+}
+
+@media (max-width: 600px) {
+    .envelope-hint {
+        font-size: 0.85rem;
+        margin-top: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .envelope-hint {
+        font-size: 0.8rem;
+        margin-top: 10px;
+        letter-spacing: 0.3px;
+    }
 }
 
 @keyframes pulse {
@@ -2149,30 +2404,31 @@ body {
 /* Mobile: ensure envelope and password stack without overlap */
 @media (max-width: 480px) {
     .envelope-page {
-        justify-content: flex-start;
-        align-items: center;
         padding-top: 30px;
+        gap: 20px;
     }
 
     .envelope-container {
-        margin-bottom: 12px;
+        margin-bottom: 0;
         z-index: 6;
     }
 
     .password-section {
         position: static !important;
-        margin-top: 12px;
+        margin-top: 15px;
         z-index: 4;
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 10px;
+        padding: 0 12px;
+        box-sizing: border-box;
     }
 
     .password-input {
-        width: calc(100% - 40px);
-        max-width: 360px;
+        width: 100%;
+        max-width: 280px;
         box-sizing: border-box;
     }
 
