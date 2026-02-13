@@ -24,6 +24,13 @@ function goToPage(pageNumber) {
         if (pageNumber === 7) {
             createFloatingHearts();
         }
+        // if we navigate to the song page, make sure the first track is selected and start playback
+        if (pageNumber === 5) {
+            // select current index in case user left off
+            selectSong(currentSongIndex, songs[currentSongIndex].name);
+            // begin playing automatically
+            playCurrentSong();
+        }
     }
 }
 
@@ -417,8 +424,13 @@ const songs = [
     }
 ];
 
+// track which song is currently selected/playing
+let currentSongIndex = 0;
+
 function selectSong(index, songName) {
     const musicPlayer = document.getElementById('musicPlayer');
+    // remember which item in the array we chose
+    currentSongIndex = index;
     const currentSongTitle = document.getElementById('currentSongTitle');
     const songSource = musicPlayer.querySelector('source');
     
@@ -489,20 +501,7 @@ function togglePlayPause() {
             bgMusic.currentTime = 0;
         }
         
-        musicPlayer.play().catch((error) => {
-            console.log('Music playback failed:', error);
-        });
-        isPageMusicPlaying = true;
-        playIcon.style.display = 'none';
-        pauseIcon.style.display = 'inline';
-        
-        // Show now playing notification
-        const nowPlaying = document.getElementById('nowPlaying');
-        const nowPlayingTitle = document.getElementById('nowPlayingTitle');
-        if (nowPlaying && nowPlayingTitle) {
-            nowPlayingTitle.textContent = document.getElementById('currentSongTitle').textContent;
-            nowPlaying.style.display = 'block';
-        }
+        playCurrentSong();
     }
 }
 
@@ -527,19 +526,25 @@ window.addEventListener('DOMContentLoaded', () => {
             currentTimeDisplay.textContent = formatTime(musicPlayer.currentTime);
         });
 
-        // Hide notification when music ends
+        // Hide notification and reset UI when music ends; then auto‑play next track if available
         musicPlayer.addEventListener('ended', () => {
             const nowPlaying = document.getElementById('nowPlaying');
             if (nowPlaying) {
                 nowPlaying.style.display = 'none';
             }
-        });        // Handle ended event
-        musicPlayer.addEventListener('ended', () => {
+
             isPageMusicPlaying = false;
             const playPauseBtn = document.getElementById('playPauseBtn');
             if (playPauseBtn) {
                 playPauseBtn.querySelector('.play-icon').style.display = 'inline';
                 playPauseBtn.querySelector('.pause-icon').style.display = 'none';
+            }
+
+            // Advance to next song in playlist automatically
+            if (currentSongIndex < songs.length - 1) {
+                currentSongIndex += 1;
+                selectSong(currentSongIndex, songs[currentSongIndex].name);
+                playCurrentSong();
             }
         });
     }
@@ -554,6 +559,38 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// helper to start playback and update UI
+function playCurrentSong() {
+    const musicPlayer = document.getElementById('musicPlayer');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+
+    if (!musicPlayer) return;
+
+    // stop any background track that might be playing
+    const bgMusic = document.getElementById('bgMusic');
+    if (bgMusic && !bgMusic.paused) {
+        bgMusic.pause();
+        bgMusic.currentTime = 0;
+    }
+
+    musicPlayer.play().catch((error) => {
+        console.log('Music playback failed:', error);
+    });
+    isPageMusicPlaying = true;
+
+    if (playPauseBtn) {
+        playPauseBtn.querySelector('.play-icon').style.display = 'none';
+        playPauseBtn.querySelector('.pause-icon').style.display = 'inline';
+    }
+
+    const nowPlaying = document.getElementById('nowPlaying');
+    const nowPlayingTitle = document.getElementById('nowPlayingTitle');
+    if (nowPlaying && nowPlayingTitle) {
+        nowPlayingTitle.textContent = document.getElementById('currentSongTitle').textContent;
+        nowPlaying.style.display = 'block';
+    }
+}
+
 function formatTime(seconds) {
     if (isNaN(seconds)) return '0:00';
     const mins = Math.floor(seconds / 60);
@@ -564,10 +601,32 @@ function formatTime(seconds) {
 // ========== BACKGROUND MUSIC TOGGLE ==========
 
 let isMusicPlaying = false;
+let bgMusicIndex = 0; // position within the songs playlist
+
+function setupBackgroundMusic() {
+    const bgMusic = document.getElementById('bgMusic');
+    if (!bgMusic) return;
+
+    // ensure first track is loaded
+    bgMusic.src = `assets/music/${songs[bgMusicIndex].file}`;
+    bgMusic.load();
+
+    // when a track ends, advance automatically
+    bgMusic.addEventListener('ended', () => {
+        bgMusicIndex = (bgMusicIndex + 1) % songs.length; // loop
+        bgMusic.src = `assets/music/${songs[bgMusicIndex].file}`;
+        bgMusic.load();
+        if (isMusicPlaying) {
+            bgMusic.play().catch(err => console.log('bgMusic play failed:', err));
+        }
+    });
+}
 
 function toggleMusic() {
     const musicBtn = document.getElementById('musicBtn');
     const bgMusic = document.getElementById('bgMusic');
+
+    if (!bgMusic) return;
 
     isMusicPlaying = !isMusicPlaying;
 
@@ -597,6 +656,8 @@ window.addEventListener('DOMContentLoaded', () => {
     if (bgMusic) {
         bgMusic.volume = 0.3;
     }
+
+    setupBackgroundMusic();
 });
 
 // ========== INITIALIZATION ==========
