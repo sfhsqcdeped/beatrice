@@ -31,6 +31,10 @@ function goToPage(pageNumber) {
             // begin playing automatically
             playCurrentSong();
         }
+        if (pageNumber === 6) {
+            selectSong(10, 'Last Friday Night');
+            playCurrentSong();
+        }
     }
 }
 
@@ -395,32 +399,52 @@ const songs = [
     { 
         name: 'RomCom', 
         file: 'romcom.mp3',
-        reason: 'Nilagay ko to kasi parang romcom talaga yung story ko sayo. Yung hallway sightings, yung bestfriend mo naging kaklase ko, yung prom picture, yung sinabihan mo akong "snabber", parang mga eksena lang sa pelikula. Minsan feeling ko main character ako sa sarili kong love story… kaso di ko alam kung may happy ending nga ba.'
+        reason: 'Eto yung kanta na palagi kong naaalala pag nakikita kita HAHAHA. Lagi ko tong tugtugan bago mag grade 10 eh'
     },
     { 
         name: 'Fallen', 
         file: 'fallen.mp3',
-        reason: 'Ito yung realization ko na hindi na lang to simpleng crush. Nahulog na talaga ako. Kahit anong gawin ko, kahit anong iwas ko, ikaw pa rin bumabalik sa isip ko. Dito ko inamin sa sarili ko na in love na talaga ako.'
+        reason: 'Ito yung realization ko na hindi na lang to simpleng happy crush. Nahulog na talaga ako. Kahit anong gawin ko, kahit anong iwas ko, ikaw pa rin bumabalik sa isip ko. HIRAP MAINLOVE HAHAHA'
     },
     { 
         name: 'Cant Take My Eyes off You', 
         file: 'cant-take-my-eyes-off-you.mp3',
-        reason: 'Ito talaga ako tuwing nakikita kita sa hallway. Kahit kunwari busy ako o walang pake, hindi ko mapigilan tumingin. Parang automatic na hinahanap ka ng mata ko. Sobrang swak sa mga moment na lagi kitang nakikita sa building.'
+        reason: 'Ito talaga ako tuwing nakikita kita sa hallway. Kahit nagpapanggap akong di kita nakikita, hindi ko mapigilan tumingin. Parang automatic na hinahanap ka ng mata ko.'
     },
     { 
         name: 'Paninindigan Kita', 
         file: 'paninindigan-kita.mp3',
-        reason: 'Nilagay ko to kasi kahit torpe ako, sa totoo lang handa akong panindigan yung nararamdaman ko. Ngayon lang ako nagkalakas ng loob magsabi kasi malapit na tayo grumaduate. Ayoko namang magsisi dahil hindi ko sinabi to.'
+        reason: 'Kung sakaling hindi talaga ako duwag at masabi ko lahat ng nararamdaman ko, maybe this would be the song I dedicate to you. Yung tipong kahit anong mangyari, kahit anong sabihin ng iba, kahit anong pagsubok, paninindigan ko pa rin yung feelings ko sa iyo.'
     },
     { 
         name: 'Made In Japan', 
         file: 'made-in-japan.mp3',
-        reason: 'Eto pag naririnig ko to pero ikaw naaalala ko. Iba kasi yung aura mo. Parang ang classy mo, ang ganda mo, may sariling dating. Kaya siguro medyo nai-intimidate din ako sayo minsan. Ang taas kasi ng level mo tapos ako… eto, torpe.'
+        reason: 'Eto pag naririnig ko to parang gusto ko manligaw. Iba kasi yung aura mo. Ang ganda mo, matalino, chill vibes. Kaya medyo nai-intimidate din ako sayo minsan. Ang taas kasi ng level mo with high honors tapos ako… eto, math lang magaling tas umunti pa math subjects sa grade 12.'
     },
     { 
         name: 'Pasilyo', 
         file: 'pasilyo.mp3',
-        reason: 'Pinili ko to kasi narealize ko nararamdaman ko sayo hindi lang basta kilig. May lalim, pang-matagalan kahit wala namang "tayo." Almost four years kitang gusto, tahimik lang pero totoo. Parang handa na akong sumugal kung may chance.'
+        reason: 'Parang handa na akong sumugal kung papayagan mo akong manligaw HAHAHA jk. Pero siguro study first na muna alam kong marami kang pangarap sa buhay at ayaw kong maging sagabal.'
+    },
+    { 
+        name: 'Aphrodite', 
+        file: 'aphrodite.mp3',
+        reason: 'relatable sa kantang to because sa tuwing nakikita kita, para kong nakikita si Aphrodite, ang diyosa ng kagandahan, sa harap ko. Parang hindi totoo na may tao palang kagandahan mo sa mundo. Kaya kahit anong gawin ko, hindi ko maiwasang mapatingin at ma-amaze sa ganda mo. btw bagay sayo long hair ah'
+    },
+    { 
+        name: 'Ligaw Tingin', 
+        file: 'ligaw-tingin.mp3',
+        reason: 'hmm masisisi ko ba ang aking pagtingin kung sa bawat ligaw tingin ay mistula kang anghel sa paningin ko?'
+    },
+    { 
+        name: 'Panalangin', 
+        file: 'panalangin.mp3',
+        reason: 'save ko nalang tong song na to ang ganda eh. Parang panalangin ko na sana mapansin mo ako, at sana mabigyan ako ng chance na makilala ka pa ng mas mabuti.'
+    },
+    { 
+        name: 'Last Friday Night', 
+        file: 'last-friday-night.mp3',
+        reason: ''
     }
 ];
 
